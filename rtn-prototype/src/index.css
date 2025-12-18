@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Lo-Fi Wireframe Base Styles */
+:root {
+  --wire-bg: #fafafa;
+  --wire-border: #999;
+  --wire-text: #333;
+  --wire-muted: #666;
+  --wire-light: #e5e5e5;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f0f0f0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+/* iPhone Frame */
+.phone-frame {
+  width: 375px;
+  min-height: 667px;
+  background: var(--wire-bg);
+  border: 2px dashed var(--wire-border);
+  border-radius: 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.phone-frame::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 24px;
+  background: var(--wire-light);
+  border-radius: 12px;
+  border: 1px dashed var(--wire-border);
+}
+
+.phone-content {
+  padding: 50px 20px 20px;
+  min-height: calc(667px - 70px);
+}
+
+/* Wireframe Button */
+.wire-btn {
+  display: block;
+  width: 100%;
+  padding: 16px 24px;
+  border: 2px dashed var(--wire-border);
+  background: white;
+  color: var(--wire-text);
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wire-btn:hover {
+  background: var(--wire-light);
+}
+
+.wire-btn-primary {
+  background: var(--wire-text);
+  color: white;
+  border-style: solid;
+}
+
+.wire-btn-primary:hover {
+  background: #555;
+}
+
+.wire-btn-ghost {
+  background: transparent;
+  border-style: dotted;
+  opacity: 0.7;
+}
+
+/* Wireframe Card */
+.wire-card {
+  border: 2px dashed var(--wire-border);
+  padding: 16px;
+  margin-bottom: 16px;
+  background: white;
+}
+
+/* Progress Bar */
+.progress-bar {
+  height: 8px;
+  background: var(--wire-light);
+  border: 1px dashed var(--wire-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--wire-text);
+  transition: width 0.3s ease;
+}
+
+/* Scan Animation */
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--wire-text), transparent);
+  animation: scan 2s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0%, 100% { top: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Status Icons */
+.status-icon {
+  width: 80px;
+  height: 80px;
+  border: 3px dashed var(--wire-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.status-icon-success {
+  border-color: #333;
+  background: #e5e5e5;
+}
+
+.status-icon-error {
+  border-color: #666;
+  background: #f5f5f5;
+}
+
+/* Lock Screen Styles */
+.lock-screen {
+  background: linear-gradient(180deg, #e0e0e0 0%, #c0c0c0 100%);
+  min-height: 667px;
+}
+
+.lock-time {
+  font-size: 72px;
+  font-weight: 200;
+  color: var(--wire-text);
+  text-align: center;
+  padding-top: 60px;
+}
+
+.lock-date {
+  font-size: 18px;
+  color: var(--wire-muted);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.notification-card {
+  margin: 20px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px dashed var(--wire-border);
+  border-radius: 16px;
+}
+
+/* Control Panel */
+.control-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border: 2px solid #333;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  max-width: 200px;
+  z-index: 1000;
+}
+
+.control-panel h3 {
+  margin: 0 0 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.control-panel button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 4px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  cursor: pointer;
+  font-size: 11px;
+  text-align: left;
+}
+
+.control-panel button:hover {
+  background: #eee;
+}
+
+.control-panel button.active {
+  background: #333;
+  color: white;
+}
+
+
+
+
+
+
+
+
