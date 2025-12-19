@@ -104,3 +104,4 @@ export default function LandingOptimal({ transaction, onTakePhoto, onUploadFile 
 
 
 
+

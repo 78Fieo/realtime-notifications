@@ -1,11 +1,11 @@
-export default function ReminderSMS({ transaction, onTapLink }) {
+export default function SMSTrigger({ transaction, onTapLink }) {
   return (
     <div className="lock-screen">
       {/* Time Display */}
-      <div className="lock-time">3:15</div>
-      <div className="lock-date">Wednesday, December 12</div>
+      <div className="lock-time">9:41</div>
+      <div className="lock-date">Tuesday, December 11</div>
 
-      {/* Reminder SMS */}
+      {/* SMS Notification */}
       <div className="notification-card cursor-pointer hover:bg-gray-100 transition-colors" onClick={onTapLink}>
         <div className="flex items-start gap-3">
           {/* App Icon Placeholder */}
@@ -22,37 +22,21 @@ export default function ReminderSMS({ transaction, onTapLink }) {
             
             {/* Message */}
             <p className="text-sm text-gray-700 leading-snug">
-              ⏰ Don't forget: Upload your receipt for <strong>{transaction.merchant}</strong> ({transaction.amount}).
-            </p>
-            <p className="text-sm text-gray-600 mt-1">
-              Link expires in <strong>2 days</strong>.
+              Your <strong>{transaction.amount}</strong> charge at <strong>{transaction.merchant}</strong> requires a receipt.
             </p>
             <p className="text-sm text-blue-600 underline mt-1">
-              Upload now →
+              Click here to upload →
             </p>
           </div>
         </div>
       </div>
 
-      {/* UX Suggestion Label */}
-      <div className="mx-5 mt-8 p-3 border-2 border-dashed border-gray-400 bg-yellow-50">
-        <p className="text-xs text-gray-700 text-center">
-          <strong>💡 UX SUGGESTION:</strong> Reminder for abandoned sessions.
-          <br /><br />
-          <span className="text-gray-600">
-            Triggers if user clicked link but didn't complete upload.
-            <br />
-            <em>Questions for PM:</em> When does this send? After 4 hours? 24 hours?
-          </span>
-        </p>
-      </div>
-
       {/* Context Label */}
-      <div className="mx-5 mt-4 p-3 border-2 border-dashed border-gray-400 bg-white/50">
+      <div className="mx-5 mt-8 p-3 border-2 border-dashed border-gray-400 bg-white/50">
         <p className="text-xs text-gray-600 text-center">
-          <strong>ABANDONMENT PATH:</strong> User started but didn't finish.
+          <strong>BEFORE:</strong> User receives this SMS ~10 seconds after card swipe at merchant.
           <br />
-          <span className="text-gray-500">Tap to return to Landing →</span>
+          <span className="text-gray-500">Tap the notification to continue →</span>
         </p>
       </div>
 
@@ -63,6 +47,7 @@ export default function ReminderSMS({ transaction, onTapLink }) {
     </div>
   )
 }
+
 
 
 
