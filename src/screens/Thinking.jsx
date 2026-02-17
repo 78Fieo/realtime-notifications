@@ -1,18 +1,26 @@
 import { useState, useEffect } from 'react'
 
 const SCAN_STAGES = [
-  { message: 'Uploading...', progress: 15 },
-  { message: 'Reading text...', progress: 40 },
-  { message: 'Verifying merchant...', progress: 65 },
-  { message: 'Checking amount...', progress: 85 },
-  { message: 'Almost done...', progress: 95 },
+  { message: 'Uploading receipt image...', progress: 16 },
+  { message: 'Reading receipt text...', progress: 38 },
+  { message: 'Checking merchant details...', progress: 60 },
+  { message: 'Validating amount and date...', progress: 82 },
+  { message: 'Finalizing substantiation...', progress: 96 },
 ]
 
 export default function Thinking({ transaction, onComplete }) {
   const [stageIndex, setStageIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [elapsedSeconds, setElapsedSeconds] = useState(0)
 
   const currentStage = SCAN_STAGES[stageIndex]
+  const totalEstimateSeconds = 7
+
+  useEffect(() => {
+    if (isPaused) return
+    const ticker = setInterval(() => setElapsedSeconds((prev) => prev + 1), 1000)
+    return () => clearInterval(ticker)
+  }, [isPaused])
 
   useEffect(() => {
     if (isPaused) return
@@ -24,7 +32,7 @@ export default function Thinking({ transaction, onComplete }) {
         // Animation complete, trigger callback
         onComplete()
       }
-    }, 800) // ~800ms per stage = ~4 seconds total
+    }, 1400) // ~7 seconds total
 
     return () => clearTimeout(timer)
   }, [stageIndex, isPaused, onComplete])
@@ -59,6 +67,9 @@ export default function Thinking({ transaction, onComplete }) {
         {/* Dynamic Microcopy */}
         <p className="text-center text-gray-700 font-medium animate-pulse">
           {currentStage.message}
+        </p>
+        <p className="text-center text-xs text-gray-500 mt-2">
+          {`Working on substantiation • ${elapsedSeconds}s elapsed (usually 5-10s)`}
         </p>
       </div>
 
@@ -98,13 +109,12 @@ export default function Thinking({ transaction, onComplete }) {
           ↺ Restart
         </button>
         <p className="text-xs text-gray-400 mt-2">
-          Stage {stageIndex + 1}/{SCAN_STAGES.length}
+          Stage {stageIndex + 1}/{SCAN_STAGES.length} • ETA {Math.max(totalEstimateSeconds - elapsedSeconds, 0)}s
         </p>
       </div>
     </div>
   )
 }
-
 
 
 

@@ -1,19 +1,27 @@
 import { useState, useEffect } from 'react'
 
 const VALIDATION_STAGES = [
-  { message: 'Uploading image...', progress: 20, icon: '⬆️' },
-  { message: 'Checking image quality...', progress: 40, icon: '🔍' },
-  { message: 'Reading receipt text...', progress: 60, icon: '📝' },
-  { message: 'Verifying merchant name...', progress: 75, icon: '🏪' },
-  { message: 'Matching amount...', progress: 90, icon: '💵' },
-  { message: 'Finalizing...', progress: 98, icon: '✨' },
+  { message: 'Uploading image...', progress: 18, icon: '⬆️' },
+  { message: 'Checking image quality...', progress: 35, icon: '🔍' },
+  { message: 'Reading receipt text...', progress: 55, icon: '📝' },
+  { message: 'Matching merchant details...', progress: 74, icon: '🏪' },
+  { message: 'Validating amount and date...', progress: 89, icon: '💵' },
+  { message: 'Finalizing substantiation...', progress: 98, icon: '✨' },
 ]
 
 export default function AIValidation({ transaction, onSuccess, onError, simulateError }) {
   const [stageIndex, setStageIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [elapsedSeconds, setElapsedSeconds] = useState(0)
 
   const currentStage = VALIDATION_STAGES[stageIndex]
+  const totalEstimateSeconds = 8
+
+  useEffect(() => {
+    if (isPaused) return
+    const ticker = setInterval(() => setElapsedSeconds((prev) => prev + 1), 1000)
+    return () => clearInterval(ticker)
+  }, [isPaused])
 
   useEffect(() => {
     if (isPaused) return
@@ -29,7 +37,7 @@ export default function AIValidation({ transaction, onSuccess, onError, simulate
           onSuccess()
         }
       }
-    }, 600)
+    }, 1200)
 
     return () => clearTimeout(timer)
   }, [stageIndex, isPaused, onSuccess, onError, simulateError])
@@ -71,7 +79,10 @@ export default function AIValidation({ transaction, onSuccess, onError, simulate
           {currentStage.message}
         </p>
         <p className="text-center text-xs text-gray-400 mt-1">
-          This usually takes a few seconds
+          Working on substantiation...
+        </p>
+        <p className="text-center text-xs text-gray-500 mt-2">
+          {`Elapsed ${elapsedSeconds}s • usually 5-10s`}
         </p>
       </div>
 
@@ -113,13 +124,12 @@ export default function AIValidation({ transaction, onSuccess, onError, simulate
           ↺ Restart
         </button>
         <p className="text-xs text-gray-400 mt-2">
-          Stage {stageIndex + 1}/{VALIDATION_STAGES.length}
+          Stage {stageIndex + 1}/{VALIDATION_STAGES.length} • ETA {Math.max(totalEstimateSeconds - elapsedSeconds, 0)}s
         </p>
       </div>
     </div>
   )
 }
-
 
 
 

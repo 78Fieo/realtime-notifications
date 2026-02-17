@@ -23,6 +23,12 @@ const ERROR_TYPES = {
     message: 'This doesn\'t appear to be a receipt. Please upload a photo of your receipt.',
     tip: 'Tip: We need the itemized receipt from the merchant, not a credit card statement.',
   },
+  DOG_PHOTO: {
+    icon: '🐶',
+    title: 'That image is not a receipt',
+    message: 'We could not detect receipt details in this image.',
+    tip: 'Tip: Upload a clear photo of the full receipt from the merchant.',
+  },
 }
 
 export default function SpecificError({ transaction, errorType = 'BLURRY', onRetry, onCancel }) {
@@ -70,7 +76,7 @@ export default function SpecificError({ transaction, errorType = 'BLURRY', onRet
         className="wire-btn wire-btn-primary mt-6"
         onClick={onRetry}
       >
-        <span className="mr-2">📷</span> Retake Photo
+        <span className="mr-2">📷</span> Upload New Photo
       </button>
 
       {/* Secondary Action */}
@@ -111,7 +117,6 @@ export default function SpecificError({ transaction, errorType = 'BLURRY', onRet
     </div>
   )
 }
-
 
 
 

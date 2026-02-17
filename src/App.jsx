@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 // Context screens (both flows)
 import SMSTrigger from './screens/SMSTrigger'
+import EmailTrigger from './screens/EmailTrigger'
 import ConfirmationSMS from './screens/ConfirmationSMS'
-import ReminderSMS from './screens/ReminderSMS'
 
 // Dev Spec flow screens
 import Landing from './screens/Landing'
@@ -34,6 +34,7 @@ const FLOW_MODES = {
 // Screen definitions for each flow
 const DEV_SPEC_SCREENS = {
   SMS_TRIGGER: 'sms-trigger',
+  EMAIL_TRIGGER: 'email-trigger',
   LANDING: 'landing',
   UPLOAD_METHOD: 'upload-method',
   IMAGE_PREVIEW: 'image-preview',
@@ -44,11 +45,11 @@ const DEV_SPEC_SCREENS = {
   TERMINAL_FAILURE: 'terminal-failure',
   CONFIRMATION_SMS: 'confirmation-sms',
   EXPIRED: 'expired',
-  REMINDER_SMS: 'reminder-sms',
 }
 
 const OPTIMAL_SCREENS = {
   SMS_TRIGGER: 'sms-trigger',
+  EMAIL_TRIGGER: 'email-trigger',
   LANDING_OPTIMAL: 'landing-optimal',
   CAMERA_PREVIEW: 'camera-preview',
   AI_VALIDATION: 'ai-validation',
@@ -57,7 +58,6 @@ const OPTIMAL_SCREENS = {
   SPECIFIC_ERROR: 'specific-error',
   CONFIRMATION_SMS: 'confirmation-sms',
   EXPIRED: 'expired',
-  REMINDER_SMS: 'reminder-sms',
 }
 
 // Transaction data
@@ -131,7 +131,7 @@ function App() {
   }
   const handleOptimalError = () => goTo(OPTIMAL_SCREENS.SPECIFIC_ERROR)
   const handleOptimalRetry = () => goTo(OPTIMAL_SCREENS.CAMERA_PREVIEW)
-  const handleOptimalLater = () => goTo(OPTIMAL_SCREENS.REMINDER_SMS)
+  const handleOptimalLater = () => goTo(OPTIMAL_SCREENS.LANDING_OPTIMAL)
 
   // ========== RENDER SCREEN ==========
   const renderScreen = () => {
@@ -142,14 +142,14 @@ function App() {
         onTapLink={() => goTo(flowMode === FLOW_MODES.DEV_SPEC ? DEV_SPEC_SCREENS.LANDING : OPTIMAL_SCREENS.LANDING_OPTIMAL)} 
       />
     }
+    if (currentScreen === 'email-trigger') {
+      return <EmailTrigger
+        transaction={TRANSACTION}
+        onOpenLink={() => goTo(flowMode === FLOW_MODES.DEV_SPEC ? DEV_SPEC_SCREENS.LANDING : OPTIMAL_SCREENS.LANDING_OPTIMAL)}
+      />
+    }
     if (currentScreen === 'confirmation-sms') {
       return <ConfirmationSMS transaction={TRANSACTION} />
-    }
-    if (currentScreen === 'reminder-sms') {
-      return <ReminderSMS 
-        transaction={TRANSACTION} 
-        onTapLink={() => goTo(flowMode === FLOW_MODES.DEV_SPEC ? DEV_SPEC_SCREENS.LANDING : OPTIMAL_SCREENS.LANDING_OPTIMAL)} 
-      />
     }
     if (currentScreen === 'expired') {
       return <Expired />
@@ -214,7 +214,10 @@ function App() {
   const getScreenList = () => {
     if (flowMode === FLOW_MODES.DEV_SPEC) {
       return [
-        { group: 'BEFORE', screens: [{ key: 'sms-trigger', label: '0. SMS Trigger' }] },
+        { group: 'BEFORE', screens: [
+          { key: 'sms-trigger', label: '0A. SMS Trigger' },
+          { key: 'email-trigger', label: '0B. Email Trigger' },
+        ] },
         { group: 'CORE FLOW', screens: [
           { key: DEV_SPEC_SCREENS.LANDING, label: '1. Landing' },
           { key: DEV_SPEC_SCREENS.UPLOAD_METHOD, label: '2. Upload Modal' },
@@ -230,12 +233,14 @@ function App() {
         { group: 'AFTER', screens: [{ key: 'confirmation-sms', label: '6. Confirm SMS' }] },
         { group: 'EDGE CASES', screens: [
           { key: 'expired', label: 'X. Expired' },
-          { key: 'reminder-sms', label: 'X. Reminder' },
         ]},
       ]
     } else {
       return [
-        { group: 'BEFORE', screens: [{ key: 'sms-trigger', label: '0. SMS Trigger' }] },
+        { group: 'BEFORE', screens: [
+          { key: 'sms-trigger', label: '0A. SMS Trigger' },
+          { key: 'email-trigger', label: '0B. Email Trigger' },
+        ] },
         { group: 'STREAMLINED FLOW', screens: [
           { key: OPTIMAL_SCREENS.LANDING_OPTIMAL, label: '1. Landing (direct)' },
           { key: OPTIMAL_SCREENS.CAMERA_PREVIEW, label: '2. Camera+Preview' },
@@ -245,12 +250,9 @@ function App() {
           { key: OPTIMAL_SCREENS.SUCCESS, label: '4A. Success ✓' },
           { key: OPTIMAL_SCREENS.UNDER_REVIEW, label: '4B. Under Review' },
           { key: OPTIMAL_SCREENS.SPECIFIC_ERROR, label: '4C. Specific Error' },
+          { key: OPTIMAL_SCREENS.EXPIRED, label: '4D. Expired Link' },
         ]},
         { group: 'AFTER', screens: [{ key: 'confirmation-sms', label: '5. Confirm SMS' }] },
-        { group: 'EDGE CASES', screens: [
-          { key: 'expired', label: 'X. Expired' },
-          { key: 'reminder-sms', label: 'X. Reminder' },
-        ]},
       ]
     }
   }
@@ -330,10 +332,11 @@ function App() {
               onChange={(e) => setErrorType(e.target.value)}
               className="w-full text-xs p-1 border border-gray-300 rounded"
             >
-              <option value="BLURRY">Blurry photo</option>
-              <option value="NO_DATE">Missing date</option>
-              <option value="NO_AMOUNT">Missing amount</option>
-              <option value="NOT_RECEIPT">Not a receipt</option>
+            <option value="BLURRY">Blurry photo</option>
+            <option value="DOG_PHOTO">Uploaded a dog photo</option>
+            <option value="NO_DATE">Missing date</option>
+            <option value="NO_AMOUNT">Missing amount</option>
+            <option value="NOT_RECEIPT">Not a receipt</option>
             </select>
           </div>
         )}
@@ -354,8 +357,10 @@ function App() {
         {/* Legend */}
         <div className="border-t pt-2 mt-2 text-xs text-gray-400">
           <p><strong>Legend:</strong></p>
+          <p>📝 = Placeholder copy</p>
           <p>✨ = UX improvement</p>
           <p>📋 = Per dev spec</p>
+          <p>Phase 2 reminder excluded from active flow</p>
         </div>
       </div>
     </div>

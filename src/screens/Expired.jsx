@@ -24,7 +24,7 @@ export default function Expired() {
       {/* Explanation */}
       <div className="wire-card text-left mb-6">
         <p className="text-sm text-gray-600">
-          Receipt upload links expire after <strong>4 days</strong> for security purposes.
+          Receipt upload links currently expire after <strong>4 days</strong>.
         </p>
         <p className="text-sm text-gray-600 mt-3">
           To upload your receipt, please log in to the benefits portal.
@@ -48,6 +48,8 @@ export default function Expired() {
           <span className="text-gray-400">
             PRD specifies 4-day expiration (96 hours).
             <br />
+            Security confirmation pending.
+            <br />
             User must fall back to full portal login.
           </span>
         </p>
@@ -64,7 +66,6 @@ export default function Expired() {
     </div>
   )
 }
-
 
 
 
