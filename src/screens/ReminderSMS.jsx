@@ -22,38 +22,16 @@ export default function ReminderSMS({ transaction, onTapLink }) {
             
             {/* Message */}
             <p className="text-sm text-gray-700 leading-snug">
-              ⏰ Don't forget: Upload your receipt for <strong>{transaction.merchant}</strong> ({transaction.amount}).
+              Reminder: Upload your receipt for <strong>{transaction.merchant}</strong> ({transaction.amount}).
             </p>
             <p className="text-sm text-gray-600 mt-1">
               Link expires in <strong>2 days</strong>.
             </p>
             <p className="text-sm text-blue-600 underline mt-1">
-              Upload now →
+              Upload now
             </p>
           </div>
         </div>
-      </div>
-
-      {/* UX Suggestion Label */}
-      <div className="mx-5 mt-8 p-3 border-2 border-dashed border-gray-400 bg-yellow-50">
-        <p className="text-xs text-gray-700 text-center">
-          <strong>💡 UX SUGGESTION:</strong> Reminder for abandoned sessions.
-          <br /><br />
-          <span className="text-gray-600">
-            Triggers if user clicked link but didn't complete upload.
-            <br />
-            <em>Questions for PM:</em> When does this send? After 4 hours? 24 hours?
-          </span>
-        </p>
-      </div>
-
-      {/* Context Label */}
-      <div className="mx-5 mt-4 p-3 border-2 border-dashed border-gray-400 bg-white/50">
-        <p className="text-xs text-gray-600 text-center">
-          <strong>ABANDONMENT PATH:</strong> User started but didn't finish.
-          <br />
-          <span className="text-gray-500">Tap to return to Landing →</span>
-        </p>
       </div>
 
       {/* Fake Lock Screen Elements */}
@@ -63,7 +41,6 @@ export default function ReminderSMS({ transaction, onTapLink }) {
     </div>
   )
 }
-
 
 
 

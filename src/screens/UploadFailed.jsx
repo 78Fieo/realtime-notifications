@@ -10,7 +10,7 @@ export default function UploadFailed({ transaction, onRetry, attemptCount }) {
 
       {/* Error Icon */}
       <div className="status-icon status-icon-error mx-auto">
-        <span className="text-2xl">❌</span>
+        <span className="text-2xl">ER</span>
       </div>
 
       {/* Message */}
@@ -51,19 +51,6 @@ export default function UploadFailed({ transaction, onRetry, attemptCount }) {
         Attempt {attemptCount} of 3
       </p>
 
-      {/* Context Label */}
-      <div className="mt-6 p-3 border-2 border-dashed border-orange-300 bg-orange-50">
-        <p className="text-xs text-orange-700 text-center">
-          <strong>UPLOAD FAILED (RETRY ALLOWED)</strong> — Per dev spec 5C
-          <br /><br />
-          <span className="text-orange-600">
-            Token <strong>STILL VALID</strong> — user can retry.
-            <br />
-            After multiple failures → terminal failure state.
-          </span>
-        </p>
-      </div>
-
       {/* Transaction Reminder */}
       <div className="mt-4 text-xs text-gray-400">
         {transaction.merchant} • {transaction.amount}
@@ -71,7 +58,6 @@ export default function UploadFailed({ transaction, onRetry, attemptCount }) {
     </div>
   )
 }
-
 
 
 

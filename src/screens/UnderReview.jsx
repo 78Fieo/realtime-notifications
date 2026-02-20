@@ -9,8 +9,8 @@ export default function UnderReview({ transaction }) {
       </div>
 
       {/* Status Icon */}
-      <div className="status-icon mx-auto" style={{ borderColor: '#3b82f6', background: '#eff6ff' }}>
-        <span className="text-2xl">🔍</span>
+      <div className="status-icon mx-auto" style={{ borderColor: 'var(--wex-brand-blue-accent)', background: 'rgba(28, 110, 255, 0.1)' }}>
+        <span className="text-2xl">IN</span>
       </div>
 
       {/* Message */}
@@ -49,39 +49,9 @@ export default function UnderReview({ transaction }) {
         You may now close this page.
       </p>
 
-      {/* UX Improvement Note */}
-      <div className="mt-6 p-3 border-2 border-dashed border-green-300 bg-green-50">
-        <p className="text-xs text-green-700 text-center">
-          <strong>✨ OPTIMAL UX</strong> — Clear "Under Review" state
-          <br />
-          <span className="text-green-600">
-            Replaces confusing "not substantiated" language.
-            <br />
-            Specific timeframe (2 business days).
-            <br />
-            Promise of notification if needed.
-          </span>
-        </p>
-      </div>
-
-      {/* Comparison Note */}
-      <div className="mt-4 p-3 border-2 border-dashed border-orange-300 bg-orange-50">
-        <p className="text-xs text-orange-700 text-center">
-          <strong>Compare to Dev Spec 5B:</strong>
-          <br />
-          <span className="text-orange-600">
-            Was: "uploaded successfully but claim could not be substantiated"
-            <br />
-            Now: Clear status with timeline and next steps
-          </span>
-        </p>
-      </div>
     </div>
   )
 }
-
-
-
 
 
 

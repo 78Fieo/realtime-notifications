@@ -10,7 +10,7 @@ export default function TerminalFailure({ transaction }) {
 
       {/* Error Icon */}
       <div className="status-icon status-icon-error mx-auto">
-        <span className="text-2xl">🚫</span>
+        <span className="text-2xl">ER</span>
       </div>
 
       {/* Message */}
@@ -40,30 +40,6 @@ export default function TerminalFailure({ transaction }) {
         [ Opens login page ]
       </p>
 
-      {/* Context Label */}
-      <div className="mt-6 p-3 border-2 border-dashed border-red-400 bg-red-50">
-        <p className="text-xs text-red-700 text-center">
-          <strong>TERMINAL FAILURE</strong> — Per dev spec 5D
-          <br /><br />
-          <span className="text-red-600">
-            Token <strong>EXPIRED</strong> — no more retries from this link.
-            <br />
-            User must use standard portal login flow.
-          </span>
-        </p>
-      </div>
-
-      {/* UX Note */}
-      <div className="mt-4 p-3 border-2 border-dashed border-yellow-300 bg-yellow-50">
-        <p className="text-xs text-yellow-700 text-center">
-          <strong>💡 UX QUESTION:</strong> Should we preserve transaction context in portal handoff?
-          <br />
-          <span className="text-yellow-600">
-            Deep link to specific claim in portal? Or generic login?
-          </span>
-        </p>
-      </div>
-
       {/* Transaction Reminder */}
       <div className="mt-4 text-xs text-gray-400">
         Original transaction: {transaction.merchant} • {transaction.amount}
@@ -71,7 +47,6 @@ export default function TerminalFailure({ transaction }) {
     </div>
   )
 }
-
 
 
 

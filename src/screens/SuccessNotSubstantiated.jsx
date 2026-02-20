@@ -10,7 +10,7 @@ export default function SuccessNotSubstantiated({ transaction }) {
 
       {/* Success Icon (but with warning tint) */}
       <div className="status-icon mx-auto" style={{ borderColor: '#666', background: '#fff3cd' }}>
-        <span className="text-2xl">⚠️</span>
+        <span className="text-2xl">RV</span>
       </div>
 
       {/* Message */}
@@ -46,37 +46,9 @@ export default function SuccessNotSubstantiated({ transaction }) {
         You may now close this page.
       </p>
 
-      {/* Context Label */}
-      <div className="mt-6 p-3 border-2 border-dashed border-yellow-300 bg-yellow-50">
-        <p className="text-xs text-yellow-700 text-center">
-          <strong>SUCCESS (NOT SUBSTANTIATED)</strong> — Per dev spec 5B
-          <br /><br />
-          <span className="text-yellow-600">
-            Upload succeeded. Image saved to portal + receipt organizer.
-            <br />
-            Token <strong>EXPIRES</strong> — user can't retry.
-            <br /><br />
-            Reasons: receipt not valid, OR ClaimsAI processing issue.
-          </span>
-        </p>
-      </div>
-
-      {/* UX Question */}
-      <div className="mt-4 p-3 border-2 border-dashed border-red-300 bg-red-50">
-        <p className="text-xs text-red-700 text-center">
-          <strong>⚠️ UX CONCERN:</strong> This feels like a dead end.
-          <br />
-          <span className="text-red-600">
-            "Additional action may be required" — but WHAT action?
-            <br />
-            Should we link to portal? Explain next steps?
-          </span>
-        </p>
-      </div>
     </div>
   )
 }
-
 
 
 

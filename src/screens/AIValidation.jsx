@@ -1,31 +1,27 @@
 import { useState, useEffect } from 'react'
 
 const VALIDATION_STAGES = [
-  { message: 'Uploading image...', progress: 18, icon: '⬆️' },
-  { message: 'Checking image quality...', progress: 35, icon: '🔍' },
-  { message: 'Reading receipt text...', progress: 55, icon: '📝' },
-  { message: 'Matching merchant details...', progress: 74, icon: '🏪' },
-  { message: 'Validating amount and date...', progress: 89, icon: '💵' },
-  { message: 'Finalizing substantiation...', progress: 98, icon: '✨' },
+  { message: 'Uploading image...', progress: 18 },
+  { message: 'Checking image quality...', progress: 35 },
+  { message: 'Reading receipt text...', progress: 55 },
+  { message: 'Matching merchant details...', progress: 74 },
+  { message: 'Validating amount and date...', progress: 89 },
+  { message: 'Finalizing substantiation...', progress: 98 },
 ]
 
 export default function AIValidation({ transaction, onSuccess, onError, simulateError }) {
   const [stageIndex, setStageIndex] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
   const [elapsedSeconds, setElapsedSeconds] = useState(0)
 
   const currentStage = VALIDATION_STAGES[stageIndex]
   const totalEstimateSeconds = 8
 
   useEffect(() => {
-    if (isPaused) return
     const ticker = setInterval(() => setElapsedSeconds((prev) => prev + 1), 1000)
     return () => clearInterval(ticker)
-  }, [isPaused])
+  }, [])
 
   useEffect(() => {
-    if (isPaused) return
-
     const timer = setTimeout(() => {
       if (stageIndex < VALIDATION_STAGES.length - 1) {
         setStageIndex(prev => prev + 1)
@@ -40,7 +36,7 @@ export default function AIValidation({ transaction, onSuccess, onError, simulate
     }, 1200)
 
     return () => clearTimeout(timer)
-  }, [stageIndex, isPaused, onSuccess, onError, simulateError])
+  }, [stageIndex, onSuccess, onError, simulateError])
 
   return (
     <div className="phone-content">
@@ -60,10 +56,6 @@ export default function AIValidation({ transaction, onSuccess, onError, simulate
           {/* Scan Line Animation */}
           <div className="scan-line"></div>
           
-          {/* Current Stage Icon */}
-          <div className="absolute top-2 right-2 w-10 h-10 bg-white rounded-full border-2 border-gray-300 flex items-center justify-center text-xl">
-            {currentStage.icon}
-          </div>
         </div>
 
         {/* Progress Bar */}
@@ -93,44 +85,14 @@ export default function AIValidation({ transaction, onSuccess, onError, simulate
         </p>
       </div>
 
-      {/* UX Improvement Note */}
-      <div className="mt-6 p-3 border-2 border-dashed border-green-300 bg-green-50">
-        <p className="text-xs text-green-700 text-center">
-          <strong>✨ OPTIMAL UX</strong> — Real-time AI feedback
-          <br />
-          <span className="text-green-600">
-            Each step shows WHAT the system is checking.
-            <br />
-            User understands the value being provided.
-            <br />
-            <em>Per PRD: Active microcopy cycling.</em>
-          </span>
-        </p>
-      </div>
-
-      {/* Debug Controls */}
-      <div className="mt-4 p-3 border border-gray-300 bg-white">
-        <p className="text-xs text-gray-500 mb-2">Debug:</p>
-        <button 
-          className="text-xs px-2 py-1 border border-gray-400 mr-2"
-          onClick={() => setIsPaused(!isPaused)}
-        >
-          {isPaused ? '▶ Resume' : '⏸ Pause'}
-        </button>
-        <button 
-          className="text-xs px-2 py-1 border border-gray-400"
-          onClick={() => { setStageIndex(0); setIsPaused(false); }}
-        >
-          ↺ Restart
-        </button>
-        <p className="text-xs text-gray-400 mt-2">
+      <div className="mt-4 text-center">
+        <p className="text-xs text-gray-400">
           Stage {stageIndex + 1}/{VALIDATION_STAGES.length} • ETA {Math.max(totalEstimateSeconds - elapsedSeconds, 0)}s
         </p>
       </div>
     </div>
   )
 }
-
 
 
 

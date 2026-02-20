@@ -247,7 +247,7 @@ function App() {
           { key: OPTIMAL_SCREENS.AI_VALIDATION, label: '3. AI Validation' },
         ]},
         { group: 'OUTCOMES', screens: [
-          { key: OPTIMAL_SCREENS.SUCCESS, label: '4A. Success ✓' },
+          { key: OPTIMAL_SCREENS.SUCCESS, label: '4A. Success' },
           { key: OPTIMAL_SCREENS.UNDER_REVIEW, label: '4B. Under Review' },
           { key: OPTIMAL_SCREENS.SPECIFIC_ERROR, label: '4C. Specific Error' },
           { key: OPTIMAL_SCREENS.EXPIRED, label: '4D. Expired Link' },
@@ -257,11 +257,42 @@ function App() {
     }
   }
 
+  const safariExcludedScreens = new Set(['sms-trigger', 'email-trigger', 'confirmation-sms', 'reminder-sms'])
+  const showSafariChrome = !safariExcludedScreens.has(currentScreen)
+
   return (
     <div className="flex gap-8">
       {/* Phone Frame */}
       <div className="phone-frame">
-        {renderScreen()}
+        {showSafariChrome ? (
+          <div className="ios-safari-shell">
+            <div className="ios-status-bar">
+              <span className="ios-status-time">9:41</span>
+              <div className="ios-dynamic-island" />
+              <span className="ios-status-signal">5G</span>
+            </div>
+
+            <div className="ios-safari-topbar">
+              <div className="ios-url-pill">
+                <span className="ios-url-lock">Secure</span>
+                <span>wexbenefits.com</span>
+              </div>
+            </div>
+
+            <div className="ios-browser-viewport">
+              {renderScreen()}
+            </div>
+
+            <div className="ios-safari-bottombar">
+              <span>Back</span>
+              <span>Forward</span>
+              <span>Share</span>
+              <span>Tabs</span>
+            </div>
+          </div>
+        ) : (
+          renderScreen()
+        )}
       </div>
 
       {/* Control Panel */}
@@ -276,13 +307,13 @@ function App() {
               onClick={() => switchFlowMode(FLOW_MODES.OPTIMAL)}
               className={`flex-1 text-xs py-2 rounded ${flowMode === FLOW_MODES.OPTIMAL ? '!bg-green-600 !text-white' : ''}`}
             >
-              ✨ Optimal
+              Optimal
             </button>
             <button
               onClick={() => switchFlowMode(FLOW_MODES.DEV_SPEC)}
               className={`flex-1 text-xs py-2 rounded ${flowMode === FLOW_MODES.DEV_SPEC ? '!bg-blue-600 !text-white' : ''}`}
             >
-              📋 Dev Spec
+              Dev Spec
             </button>
           </div>
           <p className="text-xs text-gray-400 mt-1 text-center">
@@ -351,17 +382,8 @@ function App() {
           onClick={resetFlow}
           className="mt-2 !bg-gray-800 !text-white w-full"
         >
-          ↺ Reset Flow
+          Reset Flow
         </button>
-
-        {/* Legend */}
-        <div className="border-t pt-2 mt-2 text-xs text-gray-400">
-          <p><strong>Legend:</strong></p>
-          <p>📝 = Placeholder copy</p>
-          <p>✨ = UX improvement</p>
-          <p>📋 = Per dev spec</p>
-          <p>Phase 2 reminder excluded from active flow</p>
-        </div>
       </div>
     </div>
   )

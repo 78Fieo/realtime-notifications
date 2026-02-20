@@ -25,19 +25,10 @@ export default function SMSTrigger({ transaction, onTapLink }) {
               Your <strong>{transaction.amount}</strong> charge at <strong>{transaction.merchant}</strong> requires a receipt.
             </p>
             <p className="text-sm text-blue-600 underline mt-1">
-              Click here to upload →
+              Click here to upload
             </p>
           </div>
         </div>
-      </div>
-
-      {/* Context Label */}
-      <div className="mx-5 mt-8 p-3 border-2 border-dashed border-gray-400 bg-white/50">
-        <p className="text-xs text-gray-600 text-center">
-          <strong>BEFORE:</strong> User receives this SMS ~10 seconds after card swipe at merchant.
-          <br />
-          <span className="text-gray-500">Tap the notification to continue →</span>
-        </p>
       </div>
 
       {/* Fake Lock Screen Elements */}
@@ -47,7 +38,6 @@ export default function SMSTrigger({ transaction, onTapLink }) {
     </div>
   )
 }
-
 
 
 

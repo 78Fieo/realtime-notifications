@@ -22,31 +22,10 @@ export default function ConfirmationSMS({ transaction }) {
             
             {/* Message */}
             <p className="text-sm text-gray-700 leading-snug">
-              ✓ Your <strong>{transaction.amount}</strong> receipt for <strong>{transaction.merchant}</strong> was verified. No action needed.
+              Your <strong>{transaction.amount}</strong> receipt for <strong>{transaction.merchant}</strong> was verified. No action needed.
             </p>
           </div>
         </div>
-      </div>
-
-      {/* UX Suggestion Label */}
-      <div className="mx-5 mt-8 p-3 border-2 border-dashed border-gray-400 bg-yellow-50">
-        <p className="text-xs text-gray-700 text-center">
-          <strong>💡 UX SUGGESTION:</strong> This confirmation SMS "closes the loop" for users.
-          <br /><br />
-          <span className="text-gray-600">
-            Currently <em>not in PRD</em> — flag for PM discussion.
-            Users may wonder "did it actually work?" without this.
-          </span>
-        </p>
-      </div>
-
-      {/* Context Label */}
-      <div className="mx-5 mt-4 p-3 border-2 border-dashed border-gray-400 bg-white/50">
-        <p className="text-xs text-gray-600 text-center">
-          <strong>AFTER:</strong> User receives this ~30 seconds after successful upload.
-          <br />
-          <span className="text-gray-500">This is the END of the happy path.</span>
-        </p>
       </div>
 
       {/* Fake Lock Screen Elements */}
@@ -56,7 +35,6 @@ export default function ConfirmationSMS({ transaction }) {
     </div>
   )
 }
-
 
 
 

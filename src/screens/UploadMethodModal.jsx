@@ -1,8 +1,8 @@
 export default function UploadMethodModal({ onSelect, onCancel }) {
   const methods = [
-    { id: 'documents', label: 'Documents', icon: '📄', desc: 'Browse files' },
-    { id: 'camera', label: 'Camera', icon: '📷', desc: 'Take a photo' },
-    { id: 'photos', label: 'Photos', icon: '🖼️', desc: 'Choose from gallery' },
+    { id: 'documents', label: 'Documents', icon: 'DOC', desc: 'Browse files' },
+    { id: 'camera', label: 'Camera', icon: 'CAM', desc: 'Take a photo' },
+    { id: 'photos', label: 'Photos', icon: 'LIB', desc: 'Choose from gallery' },
   ]
 
   return (
@@ -45,31 +45,9 @@ export default function UploadMethodModal({ onSelect, onCancel }) {
         </button>
       </div>
 
-      {/* Context Label */}
-      <div className="mt-6 p-3 border-2 border-dashed border-gray-300 bg-gray-50">
-        <p className="text-xs text-gray-500 text-center">
-          <strong>UPLOAD METHOD MODAL</strong> — Per dev spec
-          <br />
-          <span className="text-gray-400">
-            Token still valid. Cancel returns to landing.
-          </span>
-        </p>
-      </div>
-
-      {/* UX Note */}
-      <div className="mt-4 p-3 border-2 border-dashed border-blue-300 bg-blue-50">
-        <p className="text-xs text-blue-700 text-center">
-          <strong>💡 UX NOTE:</strong> OS will handle actual file/camera picker.
-          <br />
-          <span className="text-blue-600">
-            This modal just determines which native flow to invoke.
-          </span>
-        </p>
-      </div>
     </div>
   )
 }
-
 
 
 

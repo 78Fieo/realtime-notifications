@@ -10,7 +10,7 @@ export default function Success({ transaction, onContinue }) {
 
       {/* Success Icon */}
       <div className="status-icon status-icon-success mx-auto">
-        <span className="text-2xl">✓</span>
+        <span className="text-2xl">OK</span>
       </div>
 
       {/* Success Message */}
@@ -50,22 +50,9 @@ export default function Success({ transaction, onContinue }) {
         You can safely close this window
       </p>
 
-      {/* Context Label */}
-      <div className="mt-8 p-3 border-2 border-dashed border-green-300 bg-green-50">
-        <p className="text-xs text-green-700 text-center">
-          <strong>SUCCESS STATE</strong> — User achieved their goal.
-          <br />
-          <span className="text-green-600">
-            PRD says no further buttons needed, but "Done" provides closure.
-            <br />
-            Tap to see suggested confirmation SMS →
-          </span>
-        </p>
-      </div>
     </div>
   )
 }
-
 
 
 

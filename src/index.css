@@ -2,18 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Lo-Fi Wireframe Base Styles */
+/* WEX Brand 2026 token bridge for prototype screens */
 :root {
-  --wire-bg: #fafafa;
-  --wire-border: #999;
-  --wire-text: #333;
-  --wire-muted: #666;
-  --wire-light: #e5e5e5;
+  --wex-brand-blue: #172da1;
+  --wex-brand-blue-accent: #1c6eff;
+  --wex-brand-red: #c8102e;
+  --wex-brand-red-accent: #ff032b;
+  --wex-brand-yellow: #ffbc00;
+  --wex-success: #00c48c;
+  --wex-success-soft: rgba(0, 196, 140, 0.1);
+  --wex-danger-soft: rgba(200, 16, 46, 0.09);
+  --wex-surface-ground: #fdfdff;
+  --wex-surface-section: #f5f8ff;
+  --wex-surface-card: #ffffff;
+  --wex-border-soft: #e1e8ff;
+  --wex-border-strong: #b1c0ee;
+  --wex-text-primary: #172da1;
+  --wex-text-secondary: #5d688c;
+  --wex-text-muted: #7a87b2;
+  --wex-focus: rgba(28, 110, 255, 0.25);
+  --wex-shadow-sm: 0 2px 4px rgba(23, 45, 161, 0.08);
+  --wex-shadow: 0 4px 12px rgba(23, 45, 161, 0.12);
+  --wex-shadow-md: 0 8px 24px rgba(23, 45, 161, 0.15);
+  --wex-radius-sm: 0.5rem;
+  --wex-radius: 0.75rem;
+  --wex-radius-lg: 1rem;
+  --wex-radius-xl: 1.5rem;
+
+  --wire-bg: var(--wex-surface-ground);
+  --wire-border: var(--wex-border-strong);
+  --wire-text: var(--wex-text-primary);
+  --wire-muted: var(--wex-text-secondary);
+  --wire-light: var(--wex-surface-section);
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #f0f0f0;
+  font-family: 'Inter', 'Instrument Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--wex-text-primary);
+  background: linear-gradient(180deg, #f0f4ff 0%, #e9efff 100%);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -23,32 +49,19 @@ body {
 
 /* iPhone Frame */
 .phone-frame {
-  width: 375px;
-  min-height: 667px;
-  background: var(--wire-bg);
-  border: 2px dashed var(--wire-border);
-  border-radius: 40px;
+  width: 390px;
+  height: 844px;
+  background: #000000;
+  border: 8px solid #0f1224;
+  border-radius: 54px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.phone-frame::before {
-  content: '';
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 24px;
-  background: var(--wire-light);
-  border-radius: 12px;
-  border: 1px dashed var(--wire-border);
+  box-shadow: 0 24px 56px rgba(23, 45, 161, 0.25);
 }
 
 .phone-content {
-  padding: 50px 20px 20px;
-  min-height: calc(667px - 70px);
+  padding: 24px 18px 18px;
+  min-height: var(--ios-viewport-height, 700px);
 }
 
 /* Wireframe Button */
@@ -56,8 +69,9 @@ body {
   display: block;
   width: 100%;
   padding: 16px 24px;
-  border: 2px dashed var(--wire-border);
-  background: white;
+  border: 1px solid var(--wire-border);
+  border-radius: var(--wex-radius);
+  background: linear-gradient(135deg, #ffffff, var(--wex-surface-section));
   color: var(--wire-text);
   font-size: 16px;
   font-weight: 600;
@@ -68,16 +82,18 @@ body {
 
 .wire-btn:hover {
   background: var(--wire-light);
+  box-shadow: var(--wex-shadow);
 }
 
 .wire-btn-primary {
-  background: var(--wire-text);
-  color: white;
+  background: linear-gradient(90deg, var(--wex-brand-blue), var(--wex-brand-blue-accent));
+  color: #ffffff;
   border-style: solid;
+  border-color: transparent;
 }
 
 .wire-btn-primary:hover {
-  background: #555;
+  box-shadow: 0 6px 18px rgba(23, 45, 161, 0.3);
 }
 
 .wire-btn-ghost {
@@ -88,24 +104,26 @@ body {
 
 /* Wireframe Card */
 .wire-card {
-  border: 2px dashed var(--wire-border);
+  border: 1px solid var(--wire-border);
+  border-radius: var(--wex-radius-lg);
   padding: 16px;
   margin-bottom: 16px;
-  background: white;
+  background: linear-gradient(135deg, #ffffff, var(--wex-surface-section));
+  box-shadow: var(--wex-shadow-sm);
 }
 
 /* Progress Bar */
 .progress-bar {
   height: 8px;
   background: var(--wire-light);
-  border: 1px dashed var(--wire-border);
+  border: 1px solid var(--wire-border);
   border-radius: 4px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: var(--wire-text);
+  background: linear-gradient(90deg, var(--wex-brand-blue), var(--wex-brand-blue-accent));
   transition: width 0.3s ease;
 }
 
@@ -130,7 +148,7 @@ body {
 .status-icon {
   width: 80px;
   height: 80px;
-  border: 3px dashed var(--wire-border);
+  border: 2px solid var(--wire-border);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -141,19 +159,19 @@ body {
 }
 
 .status-icon-success {
-  border-color: #333;
-  background: #e5e5e5;
+  border-color: rgba(0, 196, 140, 0.5);
+  background: var(--wex-success-soft);
 }
 
 .status-icon-error {
-  border-color: #666;
-  background: #f5f5f5;
+  border-color: rgba(200, 16, 46, 0.5);
+  background: var(--wex-danger-soft);
 }
 
 /* Lock Screen Styles */
 .lock-screen {
-  background: linear-gradient(180deg, #e0e0e0 0%, #c0c0c0 100%);
-  min-height: 667px;
+  background: linear-gradient(180deg, #f0f4ff 0%, #dfe8ff 100%);
+  min-height: var(--ios-viewport-height, 700px);
 }
 
 .lock-time {
@@ -175,8 +193,95 @@ body {
   margin: 20px;
   padding: 16px;
   background: rgba(255, 255, 255, 0.9);
-  border: 2px dashed var(--wire-border);
+  border: 1px solid var(--wire-border);
   border-radius: 16px;
+  box-shadow: var(--wex-shadow-sm);
+}
+
+/* iOS Safari shell */
+.ios-safari-shell {
+  --ios-status-height: 46px;
+  --ios-topbar-height: 54px;
+  --ios-bottom-height: 74px;
+  --ios-viewport-height: calc(844px - var(--ios-status-height) - var(--ios-topbar-height) - var(--ios-bottom-height) - 16px);
+  background: linear-gradient(180deg, #f4f7ff 0%, #e9efff 100%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ios-status-bar {
+  height: var(--ios-status-height);
+  padding: 8px 18px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ios-status-time,
+.ios-status-signal {
+  width: 88px;
+}
+
+.ios-status-signal {
+  text-align: right;
+}
+
+.ios-dynamic-island {
+  width: 122px;
+  height: 34px;
+  border-radius: 18px;
+  background: #000000;
+}
+
+.ios-safari-topbar {
+  height: var(--ios-topbar-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  background: rgba(244, 247, 255, 0.9);
+  border-bottom: 1px solid rgba(177, 192, 238, 0.7);
+}
+
+.ios-url-pill {
+  height: 36px;
+  width: 100%;
+  max-width: 330px;
+  border-radius: 18px;
+  border: 1px solid var(--wex-border-strong);
+  background: #ffffff;
+  color: var(--wex-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  box-shadow: var(--wex-shadow-sm);
+}
+
+.ios-url-lock {
+  color: var(--wex-brand-blue);
+}
+
+.ios-browser-viewport {
+  height: var(--ios-viewport-height);
+  overflow-y: auto;
+  background: linear-gradient(180deg, var(--wex-surface-ground), var(--wex-surface-section));
+}
+
+.ios-safari-bottombar {
+  height: var(--ios-bottom-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: var(--wex-brand-blue);
+  font-size: 18px;
+  border-top: 1px solid rgba(177, 192, 238, 0.7);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 /* Control Panel */
@@ -184,10 +289,10 @@ body {
   position: fixed;
   top: 20px;
   right: 20px;
-  background: white;
-  border: 2px solid #333;
+  background: #ffffff;
+  border: 1px solid var(--wire-border);
   padding: 16px;
-  border-radius: 8px;
+  border-radius: var(--wex-radius);
   font-size: 12px;
   max-width: 200px;
   z-index: 1000;
@@ -205,25 +310,21 @@ body {
   width: 100%;
   padding: 8px;
   margin-bottom: 4px;
-  border: 1px solid #ccc;
-  background: #f9f9f9;
+  border: 1px solid var(--wire-border);
+  background: var(--wex-surface-section);
   cursor: pointer;
   font-size: 11px;
   text-align: left;
 }
 
 .control-panel button:hover {
-  background: #eee;
+  background: #e9efff;
 }
 
 .control-panel button.active {
-  background: #333;
-  color: white;
+  background: var(--wex-brand-blue);
+  color: #ffffff;
 }
-
-
-
-
 
 
 

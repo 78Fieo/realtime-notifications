@@ -41,7 +41,7 @@ export default function LandingOptimal({ transaction, onTakePhoto, onUploadFile 
         className="wire-btn wire-btn-primary mt-6"
         onClick={onTakePhoto}
       >
-        <span className="text-xl mr-2">📷</span> Take Photo of Receipt
+        Take Photo of Receipt
       </button>
 
       {/* Secondary - File Upload (text link, not button) */}
@@ -59,21 +59,6 @@ export default function LandingOptimal({ transaction, onTakePhoto, onUploadFile 
       >
         Why do I need to do this?
       </button>
-
-      {/* UX Improvement Note */}
-      <div className="mt-6 p-3 border-2 border-dashed border-green-300 bg-green-50">
-        <p className="text-xs text-green-700 text-center">
-          <strong>✨ OPTIMAL UX</strong> — Streamlined landing
-          <br />
-          <span className="text-green-600">
-            Camera is primary action (1 tap).
-            <br />
-            File upload available but de-emphasized.
-            <br />
-            <em>Removes upload method modal screen.</em>
-          </span>
-        </p>
-      </div>
 
       {/* Why Modal */}
       {showWhyModal && (
@@ -96,7 +81,6 @@ export default function LandingOptimal({ transaction, onTakePhoto, onUploadFile 
     </div>
   )
 }
-
 
 
 

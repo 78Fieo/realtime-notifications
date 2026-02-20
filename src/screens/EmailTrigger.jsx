@@ -27,13 +27,6 @@ export default function EmailTrigger({ transaction, onOpenLink }) {
         </div>
       </div>
 
-      <div className="mt-6 p-3 border-2 border-dashed border-gray-300 bg-gray-50">
-        <p className="text-xs text-gray-600 text-center">
-          <strong>BEFORE:</strong> Email entry point (placeholder copy).
-          <br />
-          <span className="text-gray-500">Tap Upload Receipt to continue to the same landing flow.</span>
-        </p>
-      </div>
     </div>
   )
 }

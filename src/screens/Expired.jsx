@@ -10,7 +10,7 @@ export default function Expired() {
 
       {/* Lock Icon */}
       <div className="status-icon status-icon-error mx-auto">
-        <span className="text-2xl">🔒</span>
+        <span className="text-2xl">EX</span>
       </div>
 
       {/* Expired Message */}
@@ -40,33 +40,9 @@ export default function Expired() {
         [ Opens login page ]
       </p>
 
-      {/* Context Label */}
-      <div className="mt-8 p-3 border-2 border-dashed border-gray-300 bg-gray-50">
-        <p className="text-xs text-gray-500 text-center">
-          <strong>EXPIRED STATE</strong> — Edge case (clicked after 4 days)
-          <br /><br />
-          <span className="text-gray-400">
-            PRD specifies 4-day expiration (96 hours).
-            <br />
-            Security confirmation pending.
-            <br />
-            User must fall back to full portal login.
-          </span>
-        </p>
-      </div>
-
-      {/* UX Question */}
-      <div className="mt-4 p-3 border-2 border-dashed border-yellow-300 bg-yellow-50">
-        <p className="text-xs text-yellow-700 text-center">
-          <strong>💡 UX QUESTION:</strong> Should we show <em>which</em> transaction expired?
-          <br />
-          Or is that a security risk?
-        </p>
-      </div>
     </div>
   )
 }
-
 
 
 

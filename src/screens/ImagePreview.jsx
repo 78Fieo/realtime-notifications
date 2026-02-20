@@ -17,7 +17,7 @@ export default function ImagePreview({ transaction, onConfirm, onCancel }) {
       <div className="wire-card">
         <div className="aspect-[3/4] bg-gray-200 border-2 border-dashed border-gray-400 flex items-center justify-center mb-4">
           <div className="text-center text-gray-500">
-            <div className="text-4xl mb-2">📄</div>
+            <div className="text-lg font-semibold mb-2">Image</div>
             <div className="text-sm">[ Selected Image ]</div>
             <div className="text-xs text-gray-400 mt-1">receipt_photo.jpg</div>
           </div>
@@ -55,31 +55,9 @@ export default function ImagePreview({ transaction, onConfirm, onCancel }) {
         Cancel
       </button>
 
-      {/* Context Label */}
-      <div className="mt-6 p-3 border-2 border-dashed border-gray-300 bg-gray-50">
-        <p className="text-xs text-gray-500 text-center">
-          <strong>IMAGE PREVIEW</strong> — Confirmation before upload
-          <br />
-          <span className="text-gray-400">
-            Token still valid. Cancel → back to method modal.
-          </span>
-        </p>
-      </div>
-
-      {/* UX Question */}
-      <div className="mt-4 p-3 border-2 border-dashed border-yellow-300 bg-yellow-50">
-        <p className="text-xs text-yellow-700 text-center">
-          <strong>💡 DESIGN QUESTION:</strong> Should user be able to crop/rotate here?
-          <br />
-          <span className="text-yellow-600">
-            Or is that over-engineering for MVP?
-          </span>
-        </p>
-      </div>
     </div>
   )
 }
-
 
 
 
