@@ -16,7 +16,6 @@ export default function UnderReview({ transaction }) {
       <h1 className="text-xl font-semibold text-gray-800 mb-2">
         Receipt Under Review
       </h1>
-      <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Status: Review in progress</p>
       
       {/* Clear Explanation */}
       <div className="wire-card text-left">
@@ -24,10 +23,7 @@ export default function UnderReview({ transaction }) {
           Your receipt was uploaded successfully.
         </p>
         <p className="text-sm text-gray-600 mt-3">
-          Our team will review it within <strong>2 business days</strong>.
-        </p>
-        <p className="text-sm text-gray-600 mt-3">
-          We'll notify you if we need anything else.
+          We'll complete verification within <strong>2 business days</strong> and notify you of the outcome.
         </p>
       </div>
 
@@ -44,10 +40,10 @@ export default function UnderReview({ transaction }) {
         </div>
       </div>
 
-      {/* Close Message */}
-      <p className="text-sm text-gray-500 mt-6">
-        You may now close this page.
-      </p>
+      {/* Close Button */}
+      <button className="wire-btn wire-btn-primary mt-6">
+        Close
+      </button>
 
     </div>
   )

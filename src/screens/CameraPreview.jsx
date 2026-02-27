@@ -20,7 +20,7 @@ export default function CameraPreview({ transaction, onUpload, onCancel }) {
 
       <div className="text-center mb-4">
         <h1 className="text-lg font-semibold text-gray-800">
-          {hasPhoto ? 'Preview' : 'Take Photo'}
+          {hasPhoto ? 'Review Your Receipt Photo' : 'Capture Receipt'}
         </h1>
         <p className="text-sm text-gray-500">
           {transaction.merchant} • {transaction.amount}
@@ -35,7 +35,7 @@ export default function CameraPreview({ transaction, onUpload, onCancel }) {
             <div className="text-white text-center">
               <div className="text-2xl font-semibold mb-4">Camera</div>
               <p className="text-sm opacity-80">Camera viewfinder</p>
-              <p className="text-xs opacity-60 mt-2">Center the receipt in frame</p>
+              <p className="text-xs opacity-60 mt-2">Fill the frame with your receipt and ensure good lighting</p>
             </div>
             
             {/* Viewfinder guides */}
@@ -57,8 +57,11 @@ export default function CameraPreview({ transaction, onUpload, onCancel }) {
             </div>
             
             {/* Check overlay */}
-            <div className="absolute top-3 right-3 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-semibold">
-              OK
+            <div
+              className="absolute top-3 right-3 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-semibold"
+              aria-label="Photo captured"
+            >
+              ✓
             </div>
           </div>
         )}

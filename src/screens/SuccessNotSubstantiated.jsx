@@ -14,16 +14,16 @@ export default function SuccessNotSubstantiated({ transaction }) {
 
       {/* Message */}
       <h1 className="text-xl font-semibold text-gray-800 mb-2">
-        Receipt Uploaded
+        Receipt Under Review
       </h1>
       
       {/* Warning Card */}
       <div className="wire-card text-left" style={{ borderColor: '#ffc107', background: '#fffbeb' }}>
         <p className="text-sm text-gray-700">
-          Your receipt was uploaded successfully, but we need more time to review it.
+          We received your receipt and our team is reviewing it now.
         </p>
         <p className="text-sm text-gray-600 mt-2">
-          Our team will follow up within 2 business days if anything else is needed.
+          If we need any additional information, we'll contact you within 2 business days.
         </p>
       </div>
 
@@ -40,10 +40,10 @@ export default function SuccessNotSubstantiated({ transaction }) {
         </div>
       </div>
 
-      {/* Close Message */}
-      <p className="text-sm text-gray-500 mt-6">
-        You may now close this page.
-      </p>
+      {/* Close Button */}
+      <button className="wire-btn wire-btn-primary mt-6">
+        Close
+      </button>
 
     </div>
   )

@@ -14,19 +14,16 @@ export default function TerminalFailure({ transaction }) {
 
       {/* Message */}
       <h1 className="text-xl font-semibold text-gray-800 mb-2">
-        Receipt could not be saved
+        Upload Unsuccessful
       </h1>
 
       {/* Error Card - No Retry */}
       <div className="wire-card text-left" style={{ borderColor: '#dc3545', background: '#fff5f5' }}>
         <p className="text-sm text-gray-700">
-          We were unable to save your receipt after multiple attempts.
+          We weren't able to save your receipt after several tries. We apologize for the inconvenience.
         </p>
-        <p className="text-sm text-gray-700 mt-3">
-          <strong>Additional action is required.</strong>
-        </p>
-        <p className="text-sm text-gray-600 mt-2">
-          Please log in to your online benefits account to upload your receipt.
+        <p className="text-sm text-gray-600 mt-3">
+          Log in to the benefits portal to upload your receipt and complete verification.
         </p>
       </div>
 
@@ -36,12 +33,12 @@ export default function TerminalFailure({ transaction }) {
       </button>
 
       <button className="wire-btn wire-btn-ghost mt-3">
-        I will do this later
+        I'll do this later
       </button>
 
       {/* Transaction Reminder */}
       <div className="mt-4 text-xs text-gray-400">
-        Original transaction: {transaction.merchant} • {transaction.amount}
+        Transaction: {transaction.merchant} • {transaction.amount}
       </div>
     </div>
   )

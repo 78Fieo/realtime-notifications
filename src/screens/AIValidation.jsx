@@ -2,25 +2,18 @@ import { useState, useEffect } from 'react'
 import BrandHeader from '../components/BrandHeader'
 
 const VALIDATION_STAGES = [
-  { message: 'Uploading image...', progress: 18 },
-  { message: 'Checking image quality...', progress: 35 },
-  { message: 'Reading receipt text...', progress: 55 },
-  { message: 'Matching merchant details...', progress: 74 },
-  { message: 'Validating amount and date...', progress: 89 },
-  { message: 'Finalizing receipt check...', progress: 98 },
+  { message: 'Sending your receipt...', progress: 18 },
+  { message: 'Checking image clarity...', progress: 35 },
+  { message: 'Reading receipt details...', progress: 55 },
+  { message: 'Verifying merchant...', progress: 74 },
+  { message: 'Confirming amount and date...', progress: 89 },
+  { message: 'Almost done...', progress: 98 },
 ]
 
 export default function AIValidation({ transaction, onSuccess, onError, onCancel, simulateError }) {
   const [stageIndex, setStageIndex] = useState(0)
-  const [elapsedSeconds, setElapsedSeconds] = useState(0)
 
   const currentStage = VALIDATION_STAGES[stageIndex]
-  const totalEstimateSeconds = 8
-
-  useEffect(() => {
-    const ticker = setInterval(() => setElapsedSeconds((prev) => prev + 1), 1000)
-    return () => clearInterval(ticker)
-  }, [])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -77,8 +70,8 @@ export default function AIValidation({ transaction, onSuccess, onError, onCancel
         {/* Glowing Beam */}
         <div className="scan-beam" aria-hidden="true" />
 
-        {/* "Analyzing Receipt..." pill */}
-        <div className="analyzing-pill">Analyzing Receipt...</div>
+        {/* "Verifying Receipt..." pill */}
+        <div className="analyzing-pill">Verifying Receipt...</div>
       </div>
 
       {/* Progress Bar */}
@@ -99,18 +92,15 @@ export default function AIValidation({ transaction, onSuccess, onError, onCancel
         {currentStage.message}
       </p>
       <p className="text-center text-sm" style={{ color: 'var(--wex-text-muted)', marginBottom: 4 }}>
-        Checking your receipt details...
+        This usually takes a few seconds.
       </p>
       <p className="text-center text-xs font-medium" style={{ color: 'var(--wex-brand-blue-accent)', marginBottom: 20 }}>
-        Elapsed {elapsedSeconds}s &bull; usually 5–10s
+        Step {stageIndex + 1} of {VALIDATION_STAGES.length}
       </p>
 
       {/* Transaction context */}
       <p className="text-center font-semibold" style={{ fontSize: 15, color: 'var(--wex-text-primary)', marginBottom: 2 }}>
         {transaction.merchant} &bull; {transaction.amount}
-      </p>
-      <p className="text-center text-xs" style={{ color: 'var(--wex-text-muted)', marginBottom: 20 }}>
-        Stage {stageIndex + 1}/{VALIDATION_STAGES.length} &bull; ETA {Math.max(totalEstimateSeconds - elapsedSeconds, 0)}s
       </p>
 
       {onCancel && (

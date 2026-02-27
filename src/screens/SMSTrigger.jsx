@@ -73,8 +73,8 @@ export default function SMSTrigger({ transaction, onTapLink }) {
   const syncLabel = {
     [SYNC_STATES.IDLE]: 'Pull to refresh',
     [SYNC_STATES.PULLING]: 'Keep pulling',
-    [SYNC_STATES.READY]: 'Release to sync',
-    [SYNC_STATES.SYNCING]: 'Syncing updates...',
+    [SYNC_STATES.READY]: 'Release to refresh',
+    [SYNC_STATES.SYNCING]: 'Refreshing...',
     [SYNC_STATES.DONE]: 'Up to date',
   }[syncState]
 
@@ -97,7 +97,7 @@ export default function SMSTrigger({ transaction, onTapLink }) {
 
       {!showNotification ? (
         <div className="notification-empty-state" aria-live="polite">
-          Waiting for new notifications...
+          No new notifications
         </div>
       ) : null}
 
@@ -123,7 +123,7 @@ export default function SMSTrigger({ transaction, onTapLink }) {
               <img src={wexLogoRed} alt="WEX" className="h-4 w-auto" />
             </div>
 
-            <div className="flex-1 min-w-0" role="listitem" aria-label="Unread notification, receipt required">
+            <div className="flex-1 min-w-0" role="listitem" aria-label="Unread notification, receipt verification needed">
               {/* Header */}
               <div className="flex justify-between items-center mb-1">
                 <div className="flex items-center gap-2">
@@ -135,10 +135,10 @@ export default function SMSTrigger({ transaction, onTapLink }) {
 
               {/* Message */}
               <p className="text-sm text-gray-700 leading-snug">
-                Your <strong>{transaction.amount}</strong> charge at <strong>{transaction.merchant}</strong> requires a receipt.
+                Your <strong>{transaction.amount}</strong> purchase at <strong>{transaction.merchant}</strong> needs a receipt to complete verification.
               </p>
               <p className="text-sm underline mt-1" style={{ color: 'var(--wex-brand-blue)' }}>
-                Click here to upload
+                Upload receipt now
               </p>
             </div>
           </div>

@@ -4,29 +4,29 @@ import StatusGlyph from '../components/StatusGlyph'
 
 const ERROR_TYPES = {
   BLURRY: {
-    title: 'Photo is too blurry',
-    message: 'We couldn\'t read the text on your receipt. Please retake the photo with better lighting.',
-    tip: 'Tip: Hold your phone steady and make sure the receipt is flat.',
+    title: 'Image unclear',
+    message: 'We can\'t read the text on this image. Retake the photo in good lighting with the receipt flat.',
+    tip: 'Tip: Hold your phone steady and tap to focus before capturing.',
   },
   NO_DATE: {
-    title: 'Missing date',
-    message: 'We couldn\'t find a date on this receipt. Make sure the full receipt is visible.',
-    tip: 'Tip: Include the top of the receipt where the date is usually printed.',
+    title: 'Date not found',
+    message: 'We couldn\'t locate a date on this receipt. Capture the full receipt, including the top where the date is usually printed.',
+    tip: 'Tip: The date is typically at the top of the receipt.',
   },
   NO_AMOUNT: {
     title: 'Amount not found',
-    message: 'We couldn\'t find the total amount. Please capture the entire receipt.',
-    tip: 'Tip: Make sure the total/amount paid is visible in the photo.',
+    message: 'We couldn\'t find the total amount. Please capture the entire receipt, including the bottom where the total is usually shown.',
+    tip: 'Tip: Make sure the total or amount paid is fully visible in the photo.',
   },
   NOT_RECEIPT: {
-    title: 'Not a receipt',
-    message: 'This doesn\'t appear to be a receipt. Please upload a photo of your receipt.',
-    tip: 'Tip: We need the itemized receipt from the merchant, not a credit card statement.',
+    title: 'Receipt not detected',
+    message: 'This image doesn\'t show a receipt. Upload the itemized receipt from the merchant, not a credit card statement or invoice.',
+    tip: 'Tip: We need the paper or digital receipt from the merchant, not a bank notification.',
   },
   DOG_PHOTO: {
-    title: 'That image is not a receipt',
-    message: 'We could not detect receipt details in this image.',
-    tip: 'Tip: Upload a clear photo of the full receipt from the merchant.',
+    title: 'Receipt not detected',
+    message: 'This image doesn\'t show a receipt. Upload the itemized receipt from the merchant, not a credit card statement or invoice.',
+    tip: 'Tip: We need the paper or digital receipt from the merchant, not a bank notification.',
   },
 }
 
@@ -54,7 +54,6 @@ export default function SpecificError({ transaction, errorType = 'BLURRY', onRet
       <h1 className="text-xl font-semibold text-gray-800 mb-2">
         {error.title}
       </h1>
-      <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Status: Action required</p>
 
       {/* Error Message */}
       <div className={`wire-card text-left motion-reveal ${isVisible ? 'is-visible' : ''}`} style={{ borderColor: 'var(--wex-brand-yellow)', background: 'rgba(255, 188, 0, 0.12)' }}>
@@ -79,7 +78,7 @@ export default function SpecificError({ transaction, errorType = 'BLURRY', onRet
         className="wire-btn wire-btn-primary mt-6"
         onClick={onRetry}
       >
-        Upload New Photo
+        Retake Photo
       </button>
 
       {/* Secondary Action */}

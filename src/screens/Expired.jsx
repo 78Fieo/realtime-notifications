@@ -16,18 +16,14 @@ export default function Expired() {
       <h1 className="text-xl font-semibold text-gray-800 mb-2">
         Link Expired
       </h1>
-      <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Status: Expired</p>
       <p className="text-gray-600 mb-6">
-        For your security, this link is no longer active.
+        For your security, this link expired after 4 days.
       </p>
 
       {/* Explanation */}
       <div className="wire-card text-left mb-6">
         <p className="text-sm text-gray-600">
-          Receipt upload links currently expire after <strong>4 days</strong>.
-        </p>
-        <p className="text-sm text-gray-600 mt-3">
-          To upload your receipt, please log in to the benefits portal.
+          Log in to the benefits portal to upload your receipt and complete verification.
         </p>
       </div>
 

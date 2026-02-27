@@ -14,13 +14,13 @@ export default function EmailTrigger({ transaction, onOpenLink }) {
           <div className="p-3 border border-gray-200 rounded bg-gray-50">
             <p className="text-xs text-gray-500">From: WEX Benefits</p>
             <p className="text-sm font-semibold text-gray-800 mt-1">
-              Receipt needed for recent card purchase
+              Receipt needed for your {transaction.amount} purchase
             </p>
             <p className="text-sm text-gray-700 mt-3">
               Your <strong>{transaction.amount}</strong> purchase at <strong>{transaction.merchant}</strong> needs a receipt.
             </p>
             <p className="text-sm text-gray-700 mt-2">
-              Please upload your receipt to avoid follow-up issues.
+              Upload your receipt to verify this purchase for your FSA or HSA account.
             </p>
             <button
               className="wire-btn wire-btn-primary mt-4"

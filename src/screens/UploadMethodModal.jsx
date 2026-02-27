@@ -2,9 +2,9 @@ import BrandHeader from '../components/BrandHeader'
 
 export default function UploadMethodModal({ onSelect, onCancel }) {
   const methods = [
-    { id: 'documents', label: 'Documents', icon: 'DOC', desc: 'Browse files' },
-    { id: 'camera', label: 'Camera', icon: 'CAM', desc: 'Take a photo' },
-    { id: 'photos', label: 'Photos', icon: 'LIB', desc: 'Choose from gallery' },
+    { id: 'camera', label: 'Take a photo', icon: 'CAM', desc: 'Use camera now' },
+    { id: 'photos', label: 'Choose from photos', icon: 'LIB', desc: 'Select from your photo library' },
+    { id: 'documents', label: 'Browse files', icon: 'DOC', desc: 'Upload from your device' },
   ]
 
   return (
@@ -15,7 +15,7 @@ export default function UploadMethodModal({ onSelect, onCancel }) {
       {/* Modal Card */}
       <div className="wire-card">
         <h2 className="text-lg font-semibold text-gray-800 mb-4 text-center">
-          Choose upload method
+          How do you want to upload?
         </h2>
 
         <div className="space-y-3">

@@ -19,17 +19,16 @@ export default function Success({ transaction, onContinue }) {
 
       {/* Success Message */}
       <h1 className="text-xl font-semibold text-gray-800 mb-2">
-        Receipt Received
+        Receipt Verified
       </h1>
-      <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Status: Complete</p>
       <p className="text-gray-600 mb-6">
-        You're all set!
+        You're all set! Your claim is approved.
       </p>
 
       {/* Confirmation Details */}
       <div className="wire-card text-left">
         <p className="text-sm text-gray-600">
-          We've matched this receipt to your expense:
+          Verified for this purchase:
         </p>
         <div className="mt-3 pt-3 border-t border-dashed border-gray-300">
           <div className="flex justify-between text-sm">
@@ -48,12 +47,8 @@ export default function Success({ transaction, onContinue }) {
         className="wire-btn wire-btn-primary mt-6"
         onClick={onContinue}
       >
-        Done
+        Close
       </button>
-
-      <p className="text-xs text-gray-400 mt-3">
-        You can safely close this window
-      </p>
 
     </div>
   )

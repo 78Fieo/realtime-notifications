@@ -32,7 +32,7 @@ export default function ConfirmationSMS({ transaction }) {
             
             {/* Message */}
             <p className="text-sm text-gray-700 leading-snug">
-              Your <strong>{transaction.amount}</strong> receipt for <strong>{transaction.merchant}</strong> was verified. No action needed.
+              We verified your <strong>{transaction.amount}</strong> purchase at <strong>{transaction.merchant}</strong>. You're all set!
             </p>
           </div>
         </div>

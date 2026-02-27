@@ -2,24 +2,17 @@ import { useState, useEffect } from 'react'
 import BrandHeader from '../components/BrandHeader'
 
 const SCAN_STAGES = [
-  { message: 'Uploading receipt image...', progress: 16 },
-  { message: 'Reading receipt text...', progress: 38 },
-  { message: 'Checking merchant details...', progress: 60 },
-  { message: 'Validating amount and date...', progress: 82 },
-  { message: 'Finalizing receipt check...', progress: 96 },
+  { message: 'Sending your receipt...', progress: 16 },
+  { message: 'Reading receipt details...', progress: 38 },
+  { message: 'Verifying merchant...', progress: 60 },
+  { message: 'Confirming amount and date...', progress: 82 },
+  { message: 'Almost done...', progress: 96 },
 ]
 
 export default function Thinking({ transaction, onComplete }) {
   const [stageIndex, setStageIndex] = useState(0)
-  const [elapsedSeconds, setElapsedSeconds] = useState(0)
 
   const currentStage = SCAN_STAGES[stageIndex]
-  const totalEstimateSeconds = 7
-
-  useEffect(() => {
-    const ticker = setInterval(() => setElapsedSeconds((prev) => prev + 1), 1000)
-    return () => clearInterval(ticker)
-  }, [])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -72,8 +65,8 @@ export default function Thinking({ transaction, onComplete }) {
         {/* Glowing Beam */}
         <div className="scan-beam" aria-hidden="true" />
 
-        {/* "Analyzing Receipt..." pill */}
-        <div className="analyzing-pill">Analyzing Receipt...</div>
+        {/* "Verifying Receipt..." pill */}
+        <div className="analyzing-pill">Verifying Receipt...</div>
       </div>
 
       {/* Progress Bar */}
@@ -93,18 +86,15 @@ export default function Thinking({ transaction, onComplete }) {
         {currentStage.message}
       </p>
       <p className="text-center text-sm" style={{ color: 'var(--wex-text-muted)', marginBottom: 4 }}>
-        Checking your receipt details...
+        This usually takes a few seconds.
       </p>
       <p className="text-center text-xs font-medium" style={{ color: 'var(--wex-brand-blue-accent)', marginBottom: 20 }}>
-        Elapsed {elapsedSeconds}s &bull; usually 5–10s
+        Step {stageIndex + 1} of {SCAN_STAGES.length}
       </p>
 
       {/* Transaction context */}
       <p className="text-center font-semibold" style={{ fontSize: 15, color: 'var(--wex-text-primary)', marginBottom: 2 }}>
         {transaction.merchant} &bull; {transaction.amount}
-      </p>
-      <p className="text-center text-xs" style={{ color: 'var(--wex-text-muted)' }}>
-        Stage {stageIndex + 1}/{SCAN_STAGES.length} &bull; ETA {Math.max(totalEstimateSeconds - elapsedSeconds, 0)}s
       </p>
     </div>
   )

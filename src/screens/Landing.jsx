@@ -12,7 +12,7 @@ export default function Landing({ transaction, onUpload }) {
       {/* Context Card - Merchant Details */}
       <div className="wire-card">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">
-          Receipt Required
+          Verify Your Purchase
         </h2>
         
         <div className="space-y-3">
@@ -56,23 +56,23 @@ export default function Landing({ transaction, onUpload }) {
         className="text-sm text-gray-600 underline mt-4 block mx-auto min-h-[44px] px-3"
         onClick={() => setShowWhyModal(true)}
       >
-        Why do I need to do this?
+        Why is a receipt needed?
       </button>
 
       {/* Why Modal */}
       {showWhyModal && (
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center p-4 z-10">
           <div className="bg-white border-2 border-dashed border-gray-400 p-5 max-w-xs motion-reveal is-visible">
-            <h3 className="font-semibold mb-3">Why do I need a receipt?</h3>
+            <h3 className="font-semibold mb-3">About receipt verification</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Some purchases require verification to ensure they're eligible for your FSA/HSA benefits. 
-              Uploading your receipt helps us process your claim quickly and keep your card active.
+              Certain merchants require a receipt to confirm your purchase qualifies for tax-free benefits.
+              This quick step ensures your claim is approved and your benefits card stays active.
             </p>
             <button 
               className="wire-btn text-sm"
               onClick={() => setShowWhyModal(false)}
             >
-              Got it
+              Close
             </button>
           </div>
         </div>

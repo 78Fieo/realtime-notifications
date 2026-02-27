@@ -122,7 +122,7 @@ function App() {
     }
   }
   const handleDevSpecRetry = () => {
-    showToast({ title: 'Retrying upload', description: 'Please capture a clear receipt image.', tone: 'info' })
+    showToast({ title: 'Retrying upload', description: 'Take a clear, well-lit photo of the full receipt.', tone: 'info' })
     goTo(DEV_SPEC_SCREENS.UPLOAD_METHOD)
   }
 
@@ -144,7 +144,7 @@ function App() {
   }
   const handleOptimalError = () => goTo(OPTIMAL_SCREENS.SPECIFIC_ERROR)
   const handleOptimalRetry = () => {
-    showToast({ title: 'Try another photo', description: 'Use better lighting and capture the full receipt.', tone: 'info' })
+    showToast({ title: 'Try another photo', description: 'Good lighting helps us read your receipt.', tone: 'info' })
     goTo(OPTIMAL_SCREENS.CAMERA_PREVIEW)
   }
   const handleOptimalLater = () => goTo(OPTIMAL_SCREENS.LANDING_OPTIMAL)
@@ -163,15 +163,15 @@ function App() {
     if (lastToastScreenRef.current === currentScreen) return
 
     if (currentScreen === DEV_SPEC_SCREENS.SUCCESS || currentScreen === OPTIMAL_SCREENS.SUCCESS) {
-      showToast({ title: 'Receipt verified', description: 'No further action needed.', tone: 'success' })
+      showToast({ title: 'Receipt verified', description: 'Your claim is approved.', tone: 'success' })
     }
 
     if (currentScreen === DEV_SPEC_SCREENS.SUCCESS_NOT_SUBSTANTIATED || currentScreen === OPTIMAL_SCREENS.UNDER_REVIEW) {
-      showToast({ title: 'Receipt under review', description: 'We will notify you within 2 business days.', tone: 'info' })
+      showToast({ title: 'Receipt under review', description: 'We\'ll notify you within 2 business days.', tone: 'info' })
     }
 
     if (currentScreen === DEV_SPEC_SCREENS.UPLOAD_FAILED || currentScreen === OPTIMAL_SCREENS.SPECIFIC_ERROR) {
-      showToast({ title: 'Upload needs attention', description: 'Please retake or retry your receipt photo.', tone: 'error' })
+      showToast({ title: 'Upload unsuccessful', description: 'Please take a new photo or try again.', tone: 'error' })
     }
 
     lastToastScreenRef.current = currentScreen

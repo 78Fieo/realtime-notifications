@@ -8,7 +8,7 @@ export default function ImagePreview({ transaction, onConfirm, onCancel }) {
 
       {/* Preview Heading */}
       <h1 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-        Preview of image
+        Review Your Receipt
       </h1>
 
       {/* Image Preview */}
@@ -23,12 +23,12 @@ export default function ImagePreview({ transaction, onConfirm, onCancel }) {
 
         {/* Requirements Copy */}
         <div className="bg-gray-100 border border-dashed border-gray-300 p-3 text-sm text-gray-600">
-          <p className="font-medium mb-2">Before uploading, please confirm:</p>
+          <p className="font-medium mb-2">Make sure your image includes:</p>
           <ul className="list-disc list-inside space-y-1 text-xs">
-            <li>Image is less than 4 MB</li>
-            <li>Receipt shows date of service</li>
-            <li>Receipt shows provider/merchant name</li>
-            <li>Receipt shows amount paid</li>
+            <li>Date of purchase</li>
+            <li>Merchant name</li>
+            <li>Amount paid</li>
+            <li>Clear, readable text</li>
           </ul>
         </div>
       </div>
@@ -43,7 +43,7 @@ export default function ImagePreview({ transaction, onConfirm, onCancel }) {
         className="wire-btn wire-btn-primary"
         onClick={onConfirm}
       >
-        Yes, upload my receipt
+        Upload Receipt
       </button>
 
       <button
