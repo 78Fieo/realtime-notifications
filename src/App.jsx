@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import useReducedMotion from './hooks/useReducedMotion'
 import useDeviceMotionProfile from './hooks/useDeviceMotionProfile'
 import { useToast } from './components/ToastProvider'
+import { BRANDS, BrandProvider } from './context/BrandContext'
 
 // Context screens (both flows)
 import SMSTrigger from './screens/SMSTrigger'
+import SMSMessageThread from './screens/SMSMessageThread'
 import EmailTrigger from './screens/EmailTrigger'
 import ConfirmationSMS from './screens/ConfirmationSMS'
 
@@ -33,11 +35,12 @@ const FLOW_MODES = {
   OPTIMAL: 'optimal',
 }
 
-const SAFARI_EXCLUDED_SCREENS = new Set(['sms-trigger', 'email-trigger', 'confirmation-sms', 'reminder-sms'])
+const SAFARI_EXCLUDED_SCREENS = new Set(['sms-trigger', 'sms-thread', 'email-trigger', 'confirmation-sms', 'reminder-sms'])
 
 // Screen definitions for each flow
 const DEV_SPEC_SCREENS = {
   SMS_TRIGGER: 'sms-trigger',
+  SMS_THREAD: 'sms-thread',
   EMAIL_TRIGGER: 'email-trigger',
   LANDING: 'landing',
   UPLOAD_METHOD: 'upload-method',
@@ -53,6 +56,7 @@ const DEV_SPEC_SCREENS = {
 
 const OPTIMAL_SCREENS = {
   SMS_TRIGGER: 'sms-trigger',
+  SMS_THREAD: 'sms-thread',
   EMAIL_TRIGGER: 'email-trigger',
   LANDING_OPTIMAL: 'landing-optimal',
   CAMERA_PREVIEW: 'camera-preview',
@@ -81,6 +85,7 @@ function App() {
   const [simulatedOutcome, setSimulatedOutcome] = useState('success')
   const [uploadAttempts, setUploadAttempts] = useState(0)
   const [errorType, setErrorType] = useState('BLURRY')
+  const [brandKey, setBrandKey] = useState('wex')
 
   const reducedMotion = useReducedMotion()
   const motionProfile = useDeviceMotionProfile(reducedMotion)
@@ -184,7 +189,15 @@ function App() {
       return (
         <SMSTrigger
           transaction={TRANSACTION}
-          onTapLink={() => goTo(flowMode === FLOW_MODES.DEV_SPEC ? DEV_SPEC_SCREENS.LANDING : OPTIMAL_SCREENS.LANDING_OPTIMAL)}
+          onTapLink={() => goTo(flowMode === FLOW_MODES.DEV_SPEC ? DEV_SPEC_SCREENS.SMS_THREAD : OPTIMAL_SCREENS.SMS_THREAD)}
+        />
+      )
+    }
+
+    if (screenKey === 'sms-thread') {
+      return (
+        <SMSMessageThread
+          onTapUploadLink={() => goTo(flowMode === FLOW_MODES.DEV_SPEC ? DEV_SPEC_SCREENS.LANDING : OPTIMAL_SCREENS.LANDING_OPTIMAL)}
         />
       )
     }
@@ -274,7 +287,8 @@ function App() {
           group: 'BEFORE',
           screens: [
             { key: 'sms-trigger', label: '0A. SMS Trigger' },
-            { key: 'email-trigger', label: '0B. Email Trigger' },
+            { key: 'sms-thread', label: '0B. SMS Thread' },
+            { key: 'email-trigger', label: '0C. Email Trigger' },
           ],
         },
         {
@@ -310,7 +324,8 @@ function App() {
         group: 'BEFORE',
         screens: [
           { key: 'sms-trigger', label: '0A. SMS Trigger' },
-          { key: 'email-trigger', label: '0B. Email Trigger' },
+          { key: 'sms-thread', label: '0B. SMS Thread' },
+          { key: 'email-trigger', label: '0C. Email Trigger' },
         ],
       },
       {
@@ -335,6 +350,7 @@ function App() {
   }
 
   const showSafariChrome = isSafariShellScreen(displayScreen)
+  const selectedBrand = BRANDS[brandKey] || BRANDS.wex
 
   const stagedScreen = (
     <div className="screen-stage">
@@ -345,133 +361,148 @@ function App() {
   )
 
   return (
-    <div className="flex gap-8" data-motion-level={motionProfile.motionLevel}>
-      <div className="sr-only" aria-live="polite" aria-atomic="true">
-        Current screen: {displayScreen}
-      </div>
+    <BrandProvider value={{ brandKey, setBrandKey, brand: selectedBrand }}>
+      <div className="flex gap-8" data-motion-level={motionProfile.motionLevel}>
+        <div className="sr-only" aria-live="polite" aria-atomic="true">
+          Current screen: {displayScreen}
+        </div>
 
-      {/* Phone Frame */}
-      <div className="phone-frame">
-        {showSafariChrome ? (
-          <div className="ios-safari-shell">
-            <div className="ios-status-bar">
-              <span className="ios-status-time">9:41</span>
-              <div className="ios-dynamic-island" />
-              <span className="ios-status-signal">5G</span>
-            </div>
+        {/* Phone Frame */}
+        <div className="phone-frame">
+          {showSafariChrome ? (
+            <div className="ios-safari-shell">
+              <div className="ios-status-bar">
+                <span className="ios-status-time">9:41</span>
+                <div className="ios-dynamic-island" />
+                <span className="ios-status-signal">5G</span>
+              </div>
 
-            <div className="ios-safari-topbar">
-              <div className="ios-url-pill">
-                <span className="ios-url-lock">Secure</span>
-                <span>wexbenefits.com</span>
+              <div className="ios-safari-topbar">
+                <div className="ios-url-pill">
+                  <span className="ios-url-lock">Secure</span>
+                  <span>{selectedBrand.domain}</span>
+                </div>
+              </div>
+
+              <div className="ios-browser-viewport">{stagedScreen}</div>
+
+              <div className="ios-safari-bottombar">
+                <span>Back</span>
+                <span>Forward</span>
+                <span>Share</span>
+                <span>Tabs</span>
               </div>
             </div>
-
-            <div className="ios-browser-viewport">{stagedScreen}</div>
-
-            <div className="ios-safari-bottombar">
-              <span>Back</span>
-              <span>Forward</span>
-              <span>Share</span>
-              <span>Tabs</span>
-            </div>
-          </div>
-        ) : (
-          stagedScreen
-        )}
-      </div>
-
-      {/* Control Panel */}
-      <div className="control-panel hidden lg:block" style={{ maxWidth: '260px' }}>
-        <h3>Prototype Controls</h3>
-
-        {/* Flow Mode Toggle */}
-        <div className="mb-4 p-2 bg-gray-100 rounded">
-          <p className="text-xs text-gray-600 mb-2 font-semibold">Flow Version:</p>
-          <div className="flex gap-1">
-            <button
-              onClick={() => switchFlowMode(FLOW_MODES.OPTIMAL)}
-              className={`flex-1 text-xs py-2 rounded ${flowMode === FLOW_MODES.OPTIMAL ? '!bg-[#172DA1] !text-white' : ''}`}
-            >
-              Optimal
-            </button>
-            <button
-              onClick={() => switchFlowMode(FLOW_MODES.DEV_SPEC)}
-              className={`flex-1 text-xs py-2 rounded ${flowMode === FLOW_MODES.DEV_SPEC ? '!bg-[#172DA1] !text-white' : ''}`}
-            >
-              Dev Spec
-            </button>
-          </div>
-          <p className="text-xs text-gray-400 mt-1 text-center">
-            {flowMode === FLOW_MODES.OPTIMAL ? '3 core screens' : '5 core screens'}
-          </p>
+          ) : (
+            stagedScreen
+          )}
         </div>
 
-        {/* Screen Navigation */}
-        <div className="max-h-[280px] overflow-y-auto mb-3">
-          {getScreenList().map(({ group, screens }) => (
-            <div key={group} className="mb-2">
-              <p className="text-xs text-gray-500 mb-1 font-semibold">{group}</p>
-              {screens.map(({ key, label }) => (
-                <button
-                  key={key}
-                  onClick={() => goTo(key)}
-                  className={currentScreen === key ? 'active' : ''}
-                  style={{ fontSize: '10px', padding: '5px 8px' }}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          ))}
-        </div>
+        {/* Control Panel */}
+        <div className="control-panel hidden lg:block" style={{ maxWidth: '260px' }}>
+          <h3>Prototype Controls</h3>
 
-        {/* Outcome Simulation */}
-        <div className="border-t pt-3">
-          <p className="text-xs text-gray-500 mb-2 font-semibold">Simulate outcome:</p>
-          <select
-            value={simulatedOutcome}
-            onChange={(e) => setSimulatedOutcome(e.target.value)}
-            className="w-full text-xs p-2 border border-gray-300 rounded"
-          >
-            <option value="success">Success (verified)</option>
-            <option value="not-substantiated">Under Review</option>
-            <option value="upload-failed">Error / Failed</option>
-          </select>
-        </div>
-
-        {/* Error Type (for optimal flow) */}
-        {flowMode === FLOW_MODES.OPTIMAL && simulatedOutcome === 'upload-failed' && (
-          <div className="mt-2">
-            <p className="text-xs text-gray-500 mb-1">Error type:</p>
+          <div className="mb-4 p-2 bg-gray-100 rounded">
+            <p className="text-xs text-gray-600 mb-2 font-semibold">Brand:</p>
             <select
-              value={errorType}
-              onChange={(e) => setErrorType(e.target.value)}
-              className="w-full text-xs p-1 border border-gray-300 rounded"
+              value={brandKey}
+              onChange={(e) => setBrandKey(e.target.value)}
+              className="w-full text-xs p-2 border border-gray-300 rounded bg-white"
             >
-              <option value="BLURRY">Blurry photo</option>
-              <option value="DOG_PHOTO">Uploaded a dog photo</option>
-              <option value="NO_DATE">Missing date</option>
-              <option value="NO_AMOUNT">Missing amount</option>
-              <option value="NOT_RECEIPT">Not a receipt</option>
+              <option value="wex">WEX</option>
+              <option value="boa">Bank of America</option>
+              <option value="kp">Kaiser Permanente</option>
             </select>
           </div>
-        )}
 
-        {/* State Info */}
-        <div className="border-t pt-2 mt-2">
-          <p className="text-xs text-gray-400">Attempts: {uploadAttempts}/{MAX_RETRIES}</p>
+          {/* Flow Mode Toggle */}
+          <div className="mb-4 p-2 bg-gray-100 rounded">
+            <p className="text-xs text-gray-600 mb-2 font-semibold">Flow Version:</p>
+            <div className="flex gap-1">
+              <button
+                onClick={() => switchFlowMode(FLOW_MODES.OPTIMAL)}
+                className={`flex-1 text-xs py-2 rounded ${flowMode === FLOW_MODES.OPTIMAL ? '!bg-[#172DA1] !text-white' : ''}`}
+              >
+                Optimal
+              </button>
+              <button
+                onClick={() => switchFlowMode(FLOW_MODES.DEV_SPEC)}
+                className={`flex-1 text-xs py-2 rounded ${flowMode === FLOW_MODES.DEV_SPEC ? '!bg-[#172DA1] !text-white' : ''}`}
+              >
+                Dev Spec
+              </button>
+            </div>
+            <p className="text-xs text-gray-400 mt-1 text-center">
+              {flowMode === FLOW_MODES.OPTIMAL ? '3 core screens' : '5 core screens'}
+            </p>
+          </div>
+
+          {/* Screen Navigation */}
+          <div className="max-h-[280px] overflow-y-auto mb-3">
+            {getScreenList().map(({ group, screens }) => (
+              <div key={group} className="mb-2">
+                <p className="text-xs text-gray-500 mb-1 font-semibold">{group}</p>
+                {screens.map(({ key, label }) => (
+                  <button
+                    key={key}
+                    onClick={() => goTo(key)}
+                    className={currentScreen === key ? 'active' : ''}
+                    style={{ fontSize: '10px', padding: '5px 8px' }}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          {/* Outcome Simulation */}
+          <div className="border-t pt-3">
+            <p className="text-xs text-gray-500 mb-2 font-semibold">Simulate outcome:</p>
+            <select
+              value={simulatedOutcome}
+              onChange={(e) => setSimulatedOutcome(e.target.value)}
+              className="w-full text-xs p-2 border border-gray-300 rounded"
+            >
+              <option value="success">Success (verified)</option>
+              <option value="not-substantiated">Under Review</option>
+              <option value="upload-failed">Error / Failed</option>
+            </select>
+          </div>
+
+          {/* Error Type (for optimal flow) */}
+          {flowMode === FLOW_MODES.OPTIMAL && simulatedOutcome === 'upload-failed' && (
+            <div className="mt-2">
+              <p className="text-xs text-gray-500 mb-1">Error type:</p>
+              <select
+                value={errorType}
+                onChange={(e) => setErrorType(e.target.value)}
+                className="w-full text-xs p-1 border border-gray-300 rounded"
+              >
+                <option value="BLURRY">Blurry photo</option>
+                <option value="DOG_PHOTO">Uploaded a dog photo</option>
+                <option value="NO_DATE">Missing date</option>
+                <option value="NO_AMOUNT">Missing amount</option>
+                <option value="NOT_RECEIPT">Not a receipt</option>
+              </select>
+            </div>
+          )}
+
+          {/* State Info */}
+          <div className="border-t pt-2 mt-2">
+            <p className="text-xs text-gray-400">Attempts: {uploadAttempts}/{MAX_RETRIES}</p>
+          </div>
+
+          {/* Reset */}
+          <button
+            onClick={resetFlow}
+            className="mt-2 !bg-gray-800 !text-white w-full"
+          >
+            Reset Flow
+          </button>
         </div>
-
-        {/* Reset */}
-        <button
-          onClick={resetFlow}
-          className="mt-2 !bg-gray-800 !text-white w-full"
-        >
-          Reset Flow
-        </button>
       </div>
-    </div>
+    </BrandProvider>
   )
 }
 

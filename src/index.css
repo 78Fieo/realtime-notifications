@@ -293,6 +293,159 @@ select:focus-visible {
   box-shadow: var(--wex-shadow-sm);
 }
 
+.notification-preview-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.messages-app,
+.mail-app {
+  height: 100%;
+  min-height: 100%;
+  background: #f4f5f7;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages-topbar,
+.mail-topbar {
+  padding: 56px 16px 10px;
+  background: rgba(248, 248, 248, 0.9);
+  border-bottom: 1px solid #dfe3ea;
+  backdrop-filter: blur(10px);
+}
+
+.messages-top-row,
+.mail-top-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  font-size: 14px;
+}
+
+.messages-back,
+.mail-nav,
+.messages-meta,
+.mail-edit {
+  color: #1d4ed8;
+  font-weight: 500;
+}
+
+.messages-contact,
+.mail-title {
+  color: #111827;
+  font-weight: 700;
+  justify-self: center;
+}
+
+.messages-meta,
+.mail-edit {
+  justify-self: end;
+}
+
+.messages-thread,
+.mail-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.messages-date-stamp {
+  margin: 0 0 16px;
+  font-size: 12px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.message-bubble {
+  max-width: 84%;
+  padding: 12px 14px;
+  border-radius: 18px;
+  font-size: 15px;
+  line-height: 1.42;
+  white-space: pre-line;
+  margin-bottom: 8px;
+}
+
+.message-bubble.incoming {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #111827;
+}
+
+.message-bubble p {
+  margin: 0 0 8px;
+}
+
+.message-bubble p:last-child {
+  margin-bottom: 0;
+}
+
+.inline-message-link {
+  border: 0;
+  background: transparent;
+  color: #1d4ed8;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.mail-meta-line {
+  display: flex;
+  justify-content: space-between;
+  color: #6b7280;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.mail-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.mail-from {
+  margin: 0;
+  font-size: 13px;
+  color: #111827;
+  font-weight: 600;
+}
+
+.mail-subject {
+  margin: 6px 0 0;
+  font-size: 18px;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.mail-preview {
+  margin: 2px 0 12px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.mail-body p {
+  margin: 0 0 10px;
+  color: #374151;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.mail-home-indicator {
+  width: 128px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(23, 45, 161, 0.45);
+  margin: 18px auto 10px;
+}
+
 /* iOS Safari shell */
 .ios-safari-shell {
   --ios-status-height: 46px;
@@ -394,8 +547,27 @@ select:focus-visible {
 
 .brand-header img {
   height: 22px;
+  max-width: 170px;
   width: auto;
   display: inline-block;
+  object-fit: contain;
+}
+
+.sms-app-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #45d26b 0%, #2fb457 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 8px rgba(17, 111, 48, 0.22);
+}
+
+.sms-app-icon svg {
+  width: 23px;
+  height: 23px;
+  fill: #ffffff;
 }
 
 /* Control Panel */

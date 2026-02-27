@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import wexLogoRed from '../assets/wex_logo_red.svg'
 
 export default function ConfirmationSMS({ transaction }) {
   const [isVisible, setIsVisible] = useState(false)
@@ -18,15 +17,17 @@ export default function ConfirmationSMS({ transaction }) {
       {/* Confirmation SMS */}
       <div className={`notification-card motion-notification ${isVisible ? 'is-visible' : ''}`}>
         <div className="flex items-start gap-3">
-          {/* App Icon Placeholder */}
-          <div className="w-10 h-10 border border-gray-300 rounded-lg bg-white flex items-center justify-center flex-shrink-0">
-            <img src={wexLogoRed} alt="WEX" className="h-4 w-auto" />
+          {/* iMessage-style app icon */}
+          <div className="sms-app-icon flex-shrink-0" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+              <path d="M4 5.5A3.5 3.5 0 0 1 7.5 2h9A3.5 3.5 0 0 1 20 5.5v7A3.5 3.5 0 0 1 16.5 16H10l-3.8 3.2a.75.75 0 0 1-1.2-.58V16.8A3.5 3.5 0 0 1 4 13.5v-8Z" />
+            </svg>
           </div>
           
           <div className="flex-1 min-w-0">
             {/* Header */}
             <div className="flex justify-between items-center mb-1">
-              <span className="font-semibold text-sm text-gray-800">WEX Benefits</span>
+              <span className="font-semibold text-sm text-gray-800">+1 (612) 555-0148</span>
               <span className="text-xs text-gray-500">just now</span>
             </div>
             
@@ -45,8 +46,5 @@ export default function ConfirmationSMS({ transaction }) {
     </div>
   )
 }
-
-
-
 
 

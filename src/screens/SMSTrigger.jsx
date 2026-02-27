@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import wexLogoRed from '../assets/wex_logo_red.svg'
+import { useBrand } from '../context/BrandContext'
 
 const SYNC_STATES = {
   IDLE: 'idle',
@@ -10,6 +10,7 @@ const SYNC_STATES = {
 }
 
 export default function SMSTrigger({ transaction, onTapLink }) {
+  const { brand } = useBrand()
   const [showNotification, setShowNotification] = useState(false)
   const [isRead, setIsRead] = useState(false)
   const [isExiting, setIsExiting] = useState(false)
@@ -78,6 +79,9 @@ export default function SMSTrigger({ transaction, onTapLink }) {
     [SYNC_STATES.DONE]: 'Up to date',
   }[syncState]
 
+  const fullSMSMessage = `${brand.smsLabel}: A debit card transaction has been processed for ${transaction.amount} on 2/26/2026 at City Chiropractic, Minneapolis, US. Your purchase needs a receipt to complete verification. Upload receipt now`
+  const truncatedSMSMessage = fullSMSMessage.length > 178 ? `${fullSMSMessage.slice(0, 175).trimEnd()}...` : fullSMSMessage
+
   return (
     <div
       className="lock-screen notification-feed"
@@ -118,27 +122,26 @@ export default function SMSTrigger({ transaction, onTapLink }) {
           aria-atomic="true"
         >
           <div className="flex items-start gap-3">
-            {/* App Icon Placeholder */}
-            <div className="w-10 h-10 border border-gray-300 rounded-lg bg-white flex items-center justify-center flex-shrink-0">
-              <img src={wexLogoRed} alt="WEX" className="h-4 w-auto" />
+            {/* iMessage-style app icon */}
+            <div className="sms-app-icon flex-shrink-0" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+                <path d="M4 5.5A3.5 3.5 0 0 1 7.5 2h9A3.5 3.5 0 0 1 20 5.5v7A3.5 3.5 0 0 1 16.5 16H10l-3.8 3.2a.75.75 0 0 1-1.2-.58V16.8A3.5 3.5 0 0 1 4 13.5v-8Z" />
+              </svg>
             </div>
 
             <div className="flex-1 min-w-0" role="listitem" aria-label="Unread notification, receipt verification needed">
               {/* Header */}
               <div className="flex justify-between items-center mb-1">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-sm text-gray-800">WEX Benefits</span>
+                  <span className="font-semibold text-sm text-gray-800">+1 (612) 555-0148</span>
                   {!isRead ? <span className="notification-unread-dot" aria-hidden="true" /> : null}
                 </div>
                 <span className="text-xs text-gray-500">now</span>
               </div>
 
               {/* Message */}
-              <p className="text-sm text-gray-700 leading-snug">
-                Your <strong>{transaction.amount}</strong> purchase at <strong>{transaction.merchant}</strong> needs a receipt to complete verification.
-              </p>
-              <p className="text-sm underline mt-1" style={{ color: 'var(--wex-brand-blue)' }}>
-                Upload receipt now
+              <p className="text-sm text-gray-700 leading-snug notification-preview-text">
+                {truncatedSMSMessage}
               </p>
             </div>
           </div>
