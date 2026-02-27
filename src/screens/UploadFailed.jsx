@@ -1,16 +1,23 @@
+import { useEffect, useState } from 'react'
+import BrandHeader from '../components/BrandHeader'
+import StatusGlyph from '../components/StatusGlyph'
+
 export default function UploadFailed({ transaction, onRetry, attemptCount }) {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIsVisible(true), 40)
+    return () => window.clearTimeout(timer)
+  }, [])
+
   return (
     <div className="phone-content text-center">
       {/* Header */}
-      <div className="mb-6">
-        <div className="inline-block px-4 py-2 border-2 border-dashed border-gray-400 text-sm text-gray-500">
-          [ EMPLOYER LOGO ]
-        </div>
-      </div>
+      <BrandHeader />
 
       {/* Error Icon */}
       <div className="status-icon status-icon-error mx-auto">
-        <span className="text-2xl">ER</span>
+        <StatusGlyph type="error" />
       </div>
 
       {/* Message */}
@@ -19,7 +26,7 @@ export default function UploadFailed({ transaction, onRetry, attemptCount }) {
       </h1>
 
       {/* Error Card */}
-      <div className="wire-card text-left" style={{ borderColor: '#dc3545', background: '#fff5f5' }}>
+      <div className={`wire-card text-left motion-reveal ${isVisible ? 'is-visible' : ''}`} style={{ borderColor: '#dc3545', background: '#fff5f5' }}>
         <p className="text-sm text-gray-700">
           There was a problem uploading your receipt.
         </p>
@@ -46,9 +53,13 @@ export default function UploadFailed({ transaction, onRetry, attemptCount }) {
         Retry Upload Image
       </button>
 
+      <button className="wire-btn wire-btn-ghost mt-3">
+        I will do this later
+      </button>
+
       {/* Attempt Counter */}
       <p className="text-xs text-gray-400 mt-3">
-        Attempt {attemptCount} of 3
+        Attempt {Math.max(1, attemptCount)} of 3
       </p>
 
       {/* Transaction Reminder */}
@@ -58,8 +69,6 @@ export default function UploadFailed({ transaction, onRetry, attemptCount }) {
     </div>
   )
 }
-
-
 
 
 

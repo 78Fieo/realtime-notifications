@@ -1,3 +1,5 @@
+import BrandHeader from '../components/BrandHeader'
+
 export default function UploadMethodModal({ onSelect, onCancel }) {
   const methods = [
     { id: 'documents', label: 'Documents', icon: 'DOC', desc: 'Browse files' },
@@ -8,11 +10,7 @@ export default function UploadMethodModal({ onSelect, onCancel }) {
   return (
     <div className="phone-content">
       {/* Header */}
-      <div className="text-center mb-6">
-        <div className="inline-block px-4 py-2 border-2 border-dashed border-gray-400 text-sm text-gray-500">
-          [ EMPLOYER LOGO ]
-        </div>
-      </div>
+      <BrandHeader />
 
       {/* Modal Card */}
       <div className="wire-card">
@@ -21,10 +19,11 @@ export default function UploadMethodModal({ onSelect, onCancel }) {
         </h2>
 
         <div className="space-y-3">
-          {methods.map((method) => (
+          {methods.map((method, index) => (
             <button
               key={method.id}
-              className="wire-btn flex items-center gap-4 text-left"
+              className="wire-btn flex items-center gap-4 text-left motion-fade-up"
+              style={{ animationDelay: `${index * 40}ms` }}
               onClick={() => onSelect(method.id)}
             >
               <span className="text-2xl">{method.icon}</span>
@@ -48,8 +47,6 @@ export default function UploadMethodModal({ onSelect, onCancel }) {
     </div>
   )
 }
-
-
 
 
 

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import BrandHeader from '../components/BrandHeader'
 
 export default function CameraPreview({ transaction, onUpload, onCancel }) {
   const [hasPhoto, setHasPhoto] = useState(false)
@@ -15,6 +16,8 @@ export default function CameraPreview({ transaction, onUpload, onCancel }) {
   return (
     <div className="phone-content">
       {/* Header */}
+      <BrandHeader />
+
       <div className="text-center mb-4">
         <h1 className="text-lg font-semibold text-gray-800">
           {hasPhoto ? 'Preview' : 'Take Photo'}
@@ -28,25 +31,28 @@ export default function CameraPreview({ transaction, onUpload, onCancel }) {
       <div className="wire-card p-0 overflow-hidden">
         {!hasPhoto ? (
           // Camera viewfinder
-          <div 
-            className="aspect-[3/4] bg-gray-800 flex flex-col items-center justify-center cursor-pointer"
-            onClick={handleCapture}
-          >
+          <div className="aspect-[3/4] bg-gray-800 flex flex-col items-center justify-center relative">
             <div className="text-white text-center">
               <div className="text-2xl font-semibold mb-4">Camera</div>
-              <p className="text-sm opacity-80">[ Camera Viewfinder ]</p>
-              <p className="text-xs opacity-60 mt-2">Tap to simulate capture</p>
+              <p className="text-sm opacity-80">Camera viewfinder</p>
+              <p className="text-xs opacity-60 mt-2">Center the receipt in frame</p>
             </div>
             
             {/* Viewfinder guides */}
             <div className="absolute inset-8 border-2 border-white/30 rounded-lg pointer-events-none"></div>
+
+            <button
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full border-4 border-white bg-white/20"
+              aria-label="Capture receipt photo"
+              onClick={handleCapture}
+            />
           </div>
         ) : (
           // Photo preview
           <div className="aspect-[3/4] bg-gray-200 flex flex-col items-center justify-center relative">
             <div className="text-center text-gray-600">
               <div className="text-xl font-semibold mb-2">Image</div>
-              <p className="text-sm">[ Captured Receipt Image ]</p>
+              <p className="text-sm">Captured receipt image</p>
               <p className="text-xs text-gray-400 mt-1">receipt_photo.jpg</p>
             </div>
             
@@ -86,9 +92,6 @@ export default function CameraPreview({ transaction, onUpload, onCancel }) {
     </div>
   )
 }
-
-
-
 
 
 

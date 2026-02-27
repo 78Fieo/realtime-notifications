@@ -1,22 +1,27 @@
+import BrandHeader from '../components/BrandHeader'
+import StatusGlyph from '../components/StatusGlyph'
+
 export default function Success({ transaction, onContinue }) {
   return (
     <div className="phone-content text-center">
       {/* Header */}
-      <div className="mb-6">
-        <div className="inline-block px-4 py-2 border-2 border-dashed border-gray-400 text-sm text-gray-500">
-          [ EMPLOYER LOGO ]
-        </div>
-      </div>
+      <BrandHeader />
 
-      {/* Success Icon */}
-      <div className="status-icon status-icon-success mx-auto">
-        <span className="text-2xl">OK</span>
+      {/* Success Icon with ripple rings */}
+      <div className="success-ripple-wrap">
+        <div className="success-ring" aria-hidden="true" />
+        <div className="success-ring success-ring-2" aria-hidden="true" />
+        <div className="success-ring success-ring-3" aria-hidden="true" />
+        <div className="status-icon status-icon-success" aria-label="Success status">
+          <StatusGlyph type="success" />
+        </div>
       </div>
 
       {/* Success Message */}
       <h1 className="text-xl font-semibold text-gray-800 mb-2">
         Receipt Received
       </h1>
+      <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Status: Complete</p>
       <p className="text-gray-600 mb-6">
         You're all set!
       </p>
@@ -29,18 +34,18 @@ export default function Success({ transaction, onContinue }) {
         <div className="mt-3 pt-3 border-t border-dashed border-gray-300">
           <div className="flex justify-between text-sm">
             <span className="text-gray-500">Merchant</span>
-            <span className="font-medium">{transaction.merchant}</span>
+            <span className="text-base font-medium text-gray-800">{transaction.merchant}</span>
           </div>
           <div className="flex justify-between text-sm mt-2">
             <span className="text-gray-500">Amount</span>
-            <span className="font-medium">{transaction.amount}</span>
+            <span className="text-base font-medium text-gray-800">{transaction.amount}</span>
           </div>
         </div>
       </div>
 
       {/* Close / Continue Button */}
       <button 
-        className="wire-btn mt-6"
+        className="wire-btn wire-btn-primary mt-6"
         onClick={onContinue}
       >
         Done
@@ -53,9 +58,6 @@ export default function Success({ transaction, onContinue }) {
     </div>
   )
 }
-
-
-
 
 
 

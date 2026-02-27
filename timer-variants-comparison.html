@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timer Variants — AI Validation Loading Screen</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --wire-bg: #fafafa;
+      --wire-border: #999;
+      --wire-text: #333;
+      --wire-muted: #666;
+      --wire-light: #e5e5e5;
+    }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #e8e8e8;
+      color: var(--wire-text);
+      padding: 24px;
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      max-width: 1280px;
+      margin: 0 auto 32px;
+    }
+    .page-header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .page-header p  { font-size: 14px; color: var(--wire-muted); line-height: 1.5; }
+    .page-header .context-box {
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* ── Grid ── */
+    .variants-grid {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* ── Variant Column ── */
+    .variant-col {
+      flex: 0 0 375px;
+    }
+    .variant-label {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .variant-label h2 {
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 4px;
+    }
+    .variant-label p {
+      font-size: 12px;
+      color: var(--wire-muted);
+    }
+
+    /* ── Phone Frame ── */
+    .phone-frame {
+      width: 375px;
+      min-height: 667px;
+      background: var(--wire-bg);
+      border: 2px dashed var(--wire-border);
+      border-radius: 40px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .phone-frame::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 24px;
+      background: var(--wire-light);
+      border-radius: 12px;
+      border: 1px dashed var(--wire-border);
+    }
+    .phone-content {
+      padding: 50px 20px 20px;
+    }
+
+    /* ── Wireframe Components ── */
+    .wire-card {
+      border: 2px dashed var(--wire-border);
+      padding: 16px;
+      margin-bottom: 16px;
+      background: white;
+    }
+    .progress-bar {
+      height: 8px;
+      background: var(--wire-light);
+      border: 1px dashed var(--wire-border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--wire-text);
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    /* ── Scan Animation ── */
+    .scan-line {
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--wire-text), transparent);
+      animation: scan 2s ease-in-out infinite;
+    }
+    @keyframes scan {
+      0%, 100% { top: 0; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    /* ── Receipt Placeholder ── */
+    .receipt-placeholder {
+      aspect-ratio: 4/3;
+      background: #f0f0f0;
+      border: 2px dashed var(--wire-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .receipt-placeholder span {
+      color: var(--wire-muted);
+      font-size: 13px;
+    }
+
+    /* ── Logo Placeholder ── */
+    .logo-placeholder {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .logo-placeholder span {
+      display: inline-block;
+      padding: 8px 16px;
+      border: 2px dashed #bbb;
+      font-size: 12px;
+      color: var(--wire-muted);
+    }
+
+    /* ── Transaction Context ── */
+    .txn-context {
+      text-align: center;
+      font-size: 13px;
+      color: var(--wire-muted);
+      margin-top: 12px;
+    }
+
+    /* ── Controls ── */
+    .demo-controls {
+      margin-top: 16px;
+      text-align: center;
+    }
+    .demo-btn {
+      display: inline-block;
+      padding: 10px 24px;
+      border: 2px solid var(--wire-text);
+      background: var(--wire-text);
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .demo-btn:hover { background: #555; }
+    .demo-btn:disabled { opacity: 0.4; cursor: default; }
+    .demo-btn-outline {
+      background: transparent;
+      color: var(--wire-text);
+      margin-left: 8px;
+    }
+    .demo-btn-outline:hover { background: var(--wire-light); }
+
+    /* ── Variant-specific ── */
+
+    /* A: Countdown */
+    .countdown-number {
+      font-size: 36px;
+      font-weight: 200;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      color: var(--wire-text);
+      margin: 8px 0 4px;
+    }
+    .countdown-label {
+      text-align: center;
+      font-size: 12px;
+      color: var(--wire-muted);
+    }
+
+    /* B: Circular Progress */
+    .circle-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 8px 0 12px;
+    }
+    .circle-timer {
+      position: relative;
+      width: 100px;
+      height: 100px;
+    }
+    .circle-timer svg {
+      transform: rotate(-90deg);
+    }
+    .circle-bg {
+      fill: none;
+      stroke: var(--wire-light);
+      stroke-width: 6;
+    }
+    .circle-fg {
+      fill: none;
+      stroke: var(--wire-text);
+      stroke-width: 6;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.5s ease;
+    }
+    .circle-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 300;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* C: Engagement */
+    .engagement-tip {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border: 1px dashed #bbb;
+      background: #f9f9f9;
+      text-align: center;
+      font-size: 12px;
+      color: var(--wire-muted);
+      line-height: 1.5;
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s;
+    }
+    .dont-close {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #b45309;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      animation: pulse-opacity 2s ease-in-out infinite;
+    }
+    @keyframes pulse-opacity {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ── Stage Chip ── */
+    .stage-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--wire-text);
+    }
+    .stage-sub {
+      font-size: 12px;
+      color: var(--wire-muted);
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* ── Pros/Cons ── */
+    .pros-cons {
+      margin-top: 16px;
+      padding: 12px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .pros-cons strong { display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .pros-cons .pro { color: #166534; }
+    .pros-cons .con { color: #991b1b; }
+    .pros-cons ul { padding-left: 16px; margin: 0; }
+
+    /* ── Speed Controls ── */
+    .speed-controls {
+      max-width: 1280px;
+      margin: 0 auto 24px;
+      padding: 12px 16px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+    }
+    .speed-controls label { font-weight: 600; white-space: nowrap; }
+    .speed-controls input[type="range"] { flex: 1; max-width: 200px; }
+    .speed-controls .speed-val { font-variant-numeric: tabular-nums; min-width: 32px; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Page Header ── -->
+  <div class="page-header">
+    <h1>Timer Variant Comparison — AI Validation Loading Screen</h1>
+    <p>Three design options for keeping users engaged during the 15-20 second AI receipt validation. Click <strong>Start Demo</strong> on each to see the full animation.</p>
+    <div class="context-box">
+      <strong>PM Feedback (Nimo):</strong> "A clock showing it's working — claims AI takes 15-20 seconds so people don't exit before seeing it."
+      <br>Each variant below simulates ~18 seconds of processing time. Use the speed slider to demo faster.
+    </div>
+  </div>
+
+  <!-- ── Speed Controls ── -->
+  <div class="speed-controls">
+    <label>Demo Speed:</label>
+    <input type="range" id="speedSlider" min="1" max="10" value="1" step="1" />
+    <span class="speed-val" id="speedLabel">1x</span>
+    <span style="color:#999; font-size:12px;">(1x = real-time 18s &nbsp;|&nbsp; 5x = ~3.6s &nbsp;|&nbsp; 10x = ~1.8s)</span>
+  </div>
+
+  <!-- ── Variants Grid ── -->
+  <div class="variants-grid">
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- VARIANT A: Countdown Timer                     -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="variant-col" id="variantA">
+      <div class="variant-label">
+        <h2>Variant A</h2>
+        <p>Countdown Timer</p>
+      </div>
+      <div class="phone-frame">
+        <div class="phone-content">
+          <div class="logo-placeholder"><span>[ EMPLOYER LOGO ]</span></div>
+
+          <div class="wire-card">
+            <div class="receipt-placeholder">
+              <span>[ Receipt Image ]</span>
+              <div class="scan-line"></div>
+            </div>
+
+            <!-- Countdown Display -->
+            <div class="countdown-number" id="a-countdown">~18s</div>
+            <div class="countdown-label">estimated time remaining</div>
+
+            <!-- Progress Bar -->
+            <div style="margin-top:14px;">
+              <div class="progress-bar">
+                <div class="progress-fill" id="a-progress"></div>
+              </div>
+            </div>
+
+            <!-- Stage Microcopy -->
+            <div style="text-align:center; margin-top:12px;">
+              <div class="stage-chip" id="a-stage">Uploading image...</div>
+            </div>
+          </div>
+
+          <div class="txn-context">Bright Smiles Dental &bull; $185.00</div>
+
+          <div class="demo-controls">
+            <button class="demo-btn" id="a-start" onclick="startA()">Start Demo</button>
+            <button class="demo-btn demo-btn-outline" onclick="resetA()">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <strong class="pro">Pros</strong>
+        <ul>
+          <li>Explicit time expectation — user knows how long to wait</li>
+          <li>Countdown creates commitment ("only 8s left")</li>
+          <li>Familiar pattern (file downloads, ride-share ETAs)</li>
+        </ul>
+        <strong class="con" style="margin-top:8px;">Cons</strong>
+        <ul>
+          <li>If real processing varies, countdown may stall or jump — feels broken</li>
+          <li>Countdown reaching 0 then continuing erodes trust</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- VARIANT B: Circular Progress + Elapsed Timer   -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="variant-col" id="variantB">
+      <div class="variant-label">
+        <h2>Variant B</h2>
+        <p>Progress Ring + Elapsed Timer</p>
+      </div>
+      <div class="phone-frame">
+        <div class="phone-content">
+          <div class="logo-placeholder"><span>[ EMPLOYER LOGO ]</span></div>
+
+          <div class="wire-card">
+            <div class="receipt-placeholder">
+              <span>[ Receipt Image ]</span>
+              <div class="scan-line"></div>
+            </div>
+
+            <!-- Circular Progress -->
+            <div class="circle-wrap">
+              <div class="circle-timer">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                  <circle class="circle-bg" cx="50" cy="50" r="44" />
+                  <circle class="circle-fg" id="b-circle" cx="50" cy="50" r="44"
+                    stroke-dasharray="276.46" stroke-dashoffset="276.46" />
+                </svg>
+                <div class="circle-text" id="b-elapsed">0:00</div>
+              </div>
+            </div>
+
+            <!-- Stage Microcopy -->
+            <div style="text-align:center;">
+              <div class="stage-chip" id="b-stage">Uploading image...</div>
+              <div class="stage-sub">This usually takes 15-20 seconds</div>
+            </div>
+          </div>
+
+          <div class="txn-context">Bright Smiles Dental &bull; $185.00</div>
+
+          <div class="demo-controls">
+            <button class="demo-btn" id="b-start" onclick="startB()">Start Demo</button>
+            <button class="demo-btn demo-btn-outline" onclick="resetB()">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <strong class="pro">Pros</strong>
+        <ul>
+          <li>Elapsed timer always accurate — no risk of passing the estimate</li>
+          <li>Circular ring is visually engaging, feels premium</li>
+          <li>Upfront "15-20 seconds" sets clear expectations</li>
+        </ul>
+        <strong class="con" style="margin-top:8px;">Cons</strong>
+        <ul>
+          <li>Elapsed timer can make waits feel <em>longer</em> (watching seconds tick)</li>
+          <li>Progress ring may feel vague without end-time commitment</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- VARIANT C: Staged Progress + Engagement Copy   -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="variant-col" id="variantC">
+      <div class="variant-label">
+        <h2>Variant C</h2>
+        <p>Stages + Engagement Copy + Nudge</p>
+      </div>
+      <div class="phone-frame">
+        <div class="phone-content">
+          <div class="logo-placeholder"><span>[ EMPLOYER LOGO ]</span></div>
+
+          <div class="wire-card">
+            <div class="receipt-placeholder">
+              <span>[ Receipt Image ]</span>
+              <div class="scan-line"></div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+              <div class="progress-fill" id="c-progress"></div>
+            </div>
+
+            <!-- Stage Microcopy with Step Counter -->
+            <div style="text-align:center; margin-top:12px;">
+              <div class="stage-chip" id="c-stage">Uploading image...</div>
+              <div class="stage-sub" id="c-step">Step 1 of 6 &bull; ~18 seconds left</div>
+            </div>
+          </div>
+
+          <!-- Engagement Tip -->
+          <div class="engagement-tip" id="c-tip">
+            Securely analyzing your receipt with AI...
+          </div>
+
+          <!-- Don't Close Nudge -->
+          <div class="dont-close" id="c-nudge" style="visibility:hidden;">
+            &#9888;&nbsp; Please keep this page open while we verify
+          </div>
+
+          <div class="txn-context">Bright Smiles Dental &bull; $185.00</div>
+
+          <div class="demo-controls">
+            <button class="demo-btn" id="c-start" onclick="startC()">Start Demo</button>
+            <button class="demo-btn demo-btn-outline" onclick="resetC()">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <strong class="pro">Pros</strong>
+        <ul>
+          <li>No clock to stall — stages + tips keep user engaged organically</li>
+          <li>"Don't close" nudge directly addresses abandonment risk</li>
+          <li>Step counter ("3 of 6") gives progress without exact time promises</li>
+          <li>Rotating tips add value and fill the wait</li>
+        </ul>
+        <strong class="con" style="margin-top:8px;">Cons</strong>
+        <ul>
+          <li>No explicit time — some users may still wonder "how long?"</li>
+          <li>More visual elements may feel busy on small screens</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /variants-grid -->
+
+<script>
+// ── Shared Config ──
+const TOTAL_DURATION = 18000; // 18 seconds (ms)
+let speedMultiplier = 1;
+
+document.getElementById('speedSlider').addEventListener('input', (e) => {
+  speedMultiplier = parseInt(e.target.value);
+  document.getElementById('speedLabel').textContent = speedMultiplier + 'x';
+});
+
+function getInterval(ms) {
+  return ms / speedMultiplier;
+}
+
+// ── Shared Stage Data ──
+const STAGES = [
+  { msg: '⬆️ Uploading image...', pct: 10, at: 0 },
+  { msg: '🔍 Checking image quality...', pct: 22, at: 2000 },
+  { msg: '📝 Reading receipt text...', pct: 40, at: 5000 },
+  { msg: '🏪 Verifying merchant name...', pct: 58, at: 8000 },
+  { msg: '💵 Matching purchase amount...', pct: 75, at: 12000 },
+  { msg: '✅ Finalizing verification...', pct: 92, at: 15000 },
+];
+
+function getStageAt(elapsed) {
+  let stage = STAGES[0];
+  for (let i = STAGES.length - 1; i >= 0; i--) {
+    if (elapsed >= STAGES[i].at) { stage = STAGES[i]; break; }
+  }
+  return stage;
+}
+function getStageIndexAt(elapsed) {
+  let idx = 0;
+  for (let i = STAGES.length - 1; i >= 0; i--) {
+    if (elapsed >= STAGES[i].at) { idx = i; break; }
+  }
+  return idx;
+}
+
+// ══════════════════════════════════════
+// VARIANT A: Countdown
+// ══════════════════════════════════════
+let aTimer = null;
+let aStart = 0;
+
+function startA() {
+  resetA();
+  document.getElementById('a-start').disabled = true;
+  aStart = performance.now();
+  aTimer = requestAnimationFrame(tickA);
+}
+
+function tickA(now) {
+  const rawElapsed = now - aStart;
+  const elapsed = rawElapsed * speedMultiplier;
+  if (elapsed >= TOTAL_DURATION) {
+    finishA();
+    return;
+  }
+
+  const remaining = Math.max(0, Math.ceil((TOTAL_DURATION - elapsed) / 1000));
+  const pct = Math.min(98, (elapsed / TOTAL_DURATION) * 100);
+  const stage = getStageAt(elapsed);
+
+  document.getElementById('a-countdown').textContent = `~${remaining}s`;
+  document.getElementById('a-progress').style.width = pct + '%';
+  document.getElementById('a-stage').textContent = stage.msg;
+
+  aTimer = requestAnimationFrame(tickA);
+}
+
+function finishA() {
+  document.getElementById('a-countdown').textContent = 'Done!';
+  document.getElementById('a-progress').style.width = '100%';
+  document.getElementById('a-stage').textContent = '✅ Verification complete';
+  document.getElementById('a-start').disabled = false;
+}
+
+function resetA() {
+  if (aTimer) cancelAnimationFrame(aTimer);
+  aTimer = null;
+  document.getElementById('a-countdown').textContent = '~18s';
+  document.getElementById('a-progress').style.width = '0%';
+  document.getElementById('a-stage').textContent = 'Uploading image...';
+  document.getElementById('a-start').disabled = false;
+}
+
+// ══════════════════════════════════════
+// VARIANT B: Circular Progress + Elapsed
+// ══════════════════════════════════════
+let bTimer = null;
+let bStartTime = 0;
+const CIRCUMFERENCE = 2 * Math.PI * 44; // ≈ 276.46
+
+function startB() {
+  resetB();
+  document.getElementById('b-start').disabled = true;
+  bStartTime = performance.now();
+  bTimer = requestAnimationFrame(tickB);
+}
+
+function tickB(now) {
+  const rawElapsed = now - bStartTime;
+  const elapsed = rawElapsed * speedMultiplier;
+  if (elapsed >= TOTAL_DURATION) {
+    finishB();
+    return;
+  }
+
+  const pct = elapsed / TOTAL_DURATION;
+  const secs = Math.floor(elapsed / 1000);
+  const mins = Math.floor(secs / 60);
+  const display = `${mins}:${String(secs % 60).padStart(2, '0')}`;
+
+  const stage = getStageAt(elapsed);
+  const offset = CIRCUMFERENCE * (1 - pct);
+
+  document.getElementById('b-elapsed').textContent = display;
+  document.getElementById('b-circle').style.strokeDashoffset = offset;
+  document.getElementById('b-stage').textContent = stage.msg;
+
+  bTimer = requestAnimationFrame(tickB);
+}
+
+function finishB() {
+  document.getElementById('b-elapsed').textContent = '0:18';
+  document.getElementById('b-circle').style.strokeDashoffset = '0';
+  document.getElementById('b-stage').textContent = '✅ Verification complete';
+  document.getElementById('b-start').disabled = false;
+}
+
+function resetB() {
+  if (bTimer) cancelAnimationFrame(bTimer);
+  bTimer = null;
+  document.getElementById('b-elapsed').textContent = '0:00';
+  document.getElementById('b-circle').style.strokeDashoffset = CIRCUMFERENCE;
+  document.getElementById('b-stage').textContent = 'Uploading image...';
+  document.getElementById('b-start').disabled = false;
+}
+
+// ══════════════════════════════════════
+// VARIANT C: Stages + Engagement + Nudge
+// ══════════════════════════════════════
+let cTimer = null;
+let cStartTime = 0;
+
+const ENGAGEMENT_TIPS = [
+  'Securely analyzing your receipt with AI...',
+  'Tip: Keep receipts for FSA/HSA purchases for your records.',
+  'Our AI checks merchant name, date, and amount — so you don\'t have to.',
+  'Almost like having a benefits expert in your pocket.',
+  'Did you know? FSA covers dental, vision, and chiropractic visits.',
+  'We\'ll send you a confirmation text when verification is complete.',
+  'Your data is encrypted and never shared with your employer.',
+];
+let lastTipIndex = 0;
+
+function startC() {
+  resetC();
+  document.getElementById('c-start').disabled = true;
+  cStartTime = performance.now();
+  lastTipIndex = 0;
+  cTimer = requestAnimationFrame(tickC);
+}
+
+function tickC(now) {
+  const rawElapsed = now - cStartTime;
+  const elapsed = rawElapsed * speedMultiplier;
+  if (elapsed >= TOTAL_DURATION) {
+    finishC();
+    return;
+  }
+
+  const pct = Math.min(98, (elapsed / TOTAL_DURATION) * 100);
+  const stageIdx = getStageIndexAt(elapsed);
+  const stage = STAGES[stageIdx];
+  const remaining = Math.max(0, Math.ceil((TOTAL_DURATION - elapsed) / 1000));
+
+  document.getElementById('c-progress').style.width = pct + '%';
+  document.getElementById('c-stage').textContent = stage.msg;
+  document.getElementById('c-step').textContent =
+    `Step ${stageIdx + 1} of ${STAGES.length} \u2022 ~${remaining}s left`;
+
+  // Rotate tips every ~3 seconds
+  const tipIndex = Math.min(ENGAGEMENT_TIPS.length - 1, Math.floor(elapsed / 3000));
+  if (tipIndex !== lastTipIndex) {
+    lastTipIndex = tipIndex;
+    const tipEl = document.getElementById('c-tip');
+    tipEl.style.opacity = '0';
+    setTimeout(() => {
+      tipEl.textContent = ENGAGEMENT_TIPS[tipIndex];
+      tipEl.style.opacity = '1';
+    }, 200);
+  }
+
+  // Show "don't close" nudge after 4 seconds
+  if (elapsed > 4000) {
+    document.getElementById('c-nudge').style.visibility = 'visible';
+  }
+
+  cTimer = requestAnimationFrame(tickC);
+}
+
+function finishC() {
+  document.getElementById('c-progress').style.width = '100%';
+  document.getElementById('c-stage').textContent = '✅ Verification complete';
+  document.getElementById('c-step').textContent = 'Done!';
+  document.getElementById('c-tip').textContent = 'Your receipt has been verified successfully.';
+  document.getElementById('c-nudge').style.visibility = 'hidden';
+  document.getElementById('c-start').disabled = false;
+}
+
+function resetC() {
+  if (cTimer) cancelAnimationFrame(cTimer);
+  cTimer = null;
+  document.getElementById('c-progress').style.width = '0%';
+  document.getElementById('c-stage').textContent = 'Uploading image...';
+  document.getElementById('c-step').textContent = `Step 1 of ${STAGES.length} \u2022 ~18 seconds left`;
+  document.getElementById('c-tip').textContent = ENGAGEMENT_TIPS[0];
+  document.getElementById('c-tip').style.opacity = '1';
+  document.getElementById('c-nudge').style.visibility = 'hidden';
+  document.getElementById('c-start').disabled = false;
+  lastTipIndex = 0;
+}
+</script>
+
+</body>
+</html>

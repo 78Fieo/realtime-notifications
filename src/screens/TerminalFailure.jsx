@@ -1,16 +1,15 @@
+import BrandHeader from '../components/BrandHeader'
+import StatusGlyph from '../components/StatusGlyph'
+
 export default function TerminalFailure({ transaction }) {
   return (
     <div className="phone-content text-center">
       {/* Header */}
-      <div className="mb-6">
-        <div className="inline-block px-4 py-2 border-2 border-dashed border-gray-400 text-sm text-gray-500">
-          [ EMPLOYER LOGO ]
-        </div>
-      </div>
+      <BrandHeader />
 
       {/* Error Icon */}
       <div className="status-icon status-icon-error mx-auto">
-        <span className="text-2xl">ER</span>
+        <StatusGlyph type="error" />
       </div>
 
       {/* Message */}
@@ -36,9 +35,9 @@ export default function TerminalFailure({ transaction }) {
         Go to Benefits Portal
       </button>
 
-      <p className="text-xs text-gray-400 mt-3">
-        [ Opens login page ]
-      </p>
+      <button className="wire-btn wire-btn-ghost mt-3">
+        I will do this later
+      </button>
 
       {/* Transaction Reminder */}
       <div className="mt-4 text-xs text-gray-400">
@@ -47,7 +46,6 @@ export default function TerminalFailure({ transaction }) {
     </div>
   )
 }
-
 
 
 

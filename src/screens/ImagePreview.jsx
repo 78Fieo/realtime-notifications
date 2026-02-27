@@ -1,12 +1,10 @@
+import BrandHeader from '../components/BrandHeader'
+
 export default function ImagePreview({ transaction, onConfirm, onCancel }) {
   return (
     <div className="phone-content">
       {/* Header */}
-      <div className="text-center mb-6">
-        <div className="inline-block px-4 py-2 border-2 border-dashed border-gray-400 text-sm text-gray-500">
-          [ EMPLOYER LOGO ]
-        </div>
-      </div>
+      <BrandHeader />
 
       {/* Preview Heading */}
       <h1 className="text-xl font-semibold text-gray-800 mb-4 text-center">
@@ -15,10 +13,10 @@ export default function ImagePreview({ transaction, onConfirm, onCancel }) {
 
       {/* Image Preview */}
       <div className="wire-card">
-        <div className="aspect-[3/4] bg-gray-200 border-2 border-dashed border-gray-400 flex items-center justify-center mb-4">
+        <div className="aspect-[4/3] max-h-48 bg-gray-200 border-2 border-dashed border-gray-400 flex items-center justify-center mb-4 overflow-hidden">
           <div className="text-center text-gray-500">
             <div className="text-lg font-semibold mb-2">Image</div>
-            <div className="text-sm">[ Selected Image ]</div>
+            <div className="text-sm">Selected image</div>
             <div className="text-xs text-gray-400 mt-1">receipt_photo.jpg</div>
           </div>
         </div>
@@ -58,8 +56,6 @@ export default function ImagePreview({ transaction, onConfirm, onCancel }) {
     </div>
   )
 }
-
-
 
 
 

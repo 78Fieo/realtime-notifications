@@ -1,4 +1,14 @@
+import { useEffect, useState } from 'react'
+import wexLogoRed from '../assets/wex_logo_red.svg'
+
 export default function ConfirmationSMS({ transaction }) {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIsVisible(true), 120)
+    return () => window.clearTimeout(timer)
+  }, [])
+
   return (
     <div className="lock-screen">
       {/* Time Display */}
@@ -6,11 +16,11 @@ export default function ConfirmationSMS({ transaction }) {
       <div className="lock-date">Tuesday, December 11</div>
 
       {/* Confirmation SMS */}
-      <div className="notification-card">
+      <div className={`notification-card motion-notification ${isVisible ? 'is-visible' : ''}`}>
         <div className="flex items-start gap-3">
           {/* App Icon Placeholder */}
-          <div className="w-10 h-10 border-2 dashed border-gray-400 rounded-lg flex items-center justify-center text-xs text-gray-500 flex-shrink-0">
-            WEX
+          <div className="w-10 h-10 border border-gray-300 rounded-lg bg-white flex items-center justify-center flex-shrink-0">
+            <img src={wexLogoRed} alt="WEX" className="h-4 w-auto" />
           </div>
           
           <div className="flex-1 min-w-0">
@@ -30,14 +40,11 @@ export default function ConfirmationSMS({ transaction }) {
 
       {/* Fake Lock Screen Elements */}
       <div className="absolute bottom-8 left-0 right-0">
-        <div className="mx-auto w-32 h-1 bg-gray-400 rounded-full opacity-50"></div>
+        <div className="mx-auto w-32 h-1 rounded-full opacity-50" style={{ background: 'var(--wex-brand-blue)' }}></div>
       </div>
     </div>
   )
 }
-
-
-
 
 
 

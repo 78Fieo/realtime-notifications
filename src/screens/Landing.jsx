@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import BrandHeader from '../components/BrandHeader'
 
 export default function Landing({ transaction, onUpload }) {
   const [showWhyModal, setShowWhyModal] = useState(false)
@@ -6,12 +7,7 @@ export default function Landing({ transaction, onUpload }) {
   return (
     <div className="phone-content relative">
       {/* Header / Logo */}
-      <div className="text-center mb-6">
-        <div className="inline-block px-4 py-2 border-2 border-dashed border-gray-400 text-sm text-gray-500">
-          [ EMPLOYER LOGO ]
-        </div>
-        <p className="text-xs text-gray-400 mt-1">Optional banner from custom branding</p>
-      </div>
+      <BrandHeader />
 
       {/* Context Card - Merchant Details */}
       <div className="wire-card">
@@ -43,7 +39,6 @@ export default function Landing({ transaction, onUpload }) {
             <p className="text-sm text-gray-600 italic">
               "{transaction.description}"
             </p>
-            <p className="text-xs text-gray-400 mt-1">(~160 chars from debit notification)</p>
           </div>
         )}
       </div>
@@ -58,27 +53,16 @@ export default function Landing({ transaction, onUpload }) {
 
       {/* Secondary Link */}
       <button 
-        className="text-sm text-gray-500 underline mt-4 block mx-auto"
+        className="text-sm text-gray-600 underline mt-4 block mx-auto min-h-[44px] px-3"
         onClick={() => setShowWhyModal(true)}
       >
         Why do I need to do this?
       </button>
 
-      {/* Page Label */}
-      <div className="mt-6 p-3 border-2 border-dashed border-gray-300 bg-gray-50">
-        <p className="text-xs text-gray-500 text-center">
-          <strong>LANDING PAGE</strong> — Per dev spec section 1
-          <br />
-          <span className="text-gray-400">
-            Token validated on page load. Still valid here.
-          </span>
-        </p>
-      </div>
-
       {/* Why Modal */}
       {showWhyModal && (
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center p-4 z-10">
-          <div className="bg-white border-2 border-dashed border-gray-400 p-5 max-w-xs">
+          <div className="bg-white border-2 border-dashed border-gray-400 p-5 max-w-xs motion-reveal is-visible">
             <h3 className="font-semibold mb-3">Why do I need a receipt?</h3>
             <p className="text-sm text-gray-600 mb-4">
               Some purchases require verification to ensure they're eligible for your FSA/HSA benefits. 

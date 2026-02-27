@@ -1,30 +1,29 @@
+import { useEffect, useState } from 'react'
+import BrandHeader from '../components/BrandHeader'
+import StatusGlyph from '../components/StatusGlyph'
+
 const ERROR_TYPES = {
   BLURRY: {
-    icon: 'ER',
     title: 'Photo is too blurry',
     message: 'We couldn\'t read the text on your receipt. Please retake the photo with better lighting.',
     tip: 'Tip: Hold your phone steady and make sure the receipt is flat.',
   },
   NO_DATE: {
-    icon: 'ER',
     title: 'Missing date',
     message: 'We couldn\'t find a date on this receipt. Make sure the full receipt is visible.',
     tip: 'Tip: Include the top of the receipt where the date is usually printed.',
   },
   NO_AMOUNT: {
-    icon: 'ER',
     title: 'Amount not found',
     message: 'We couldn\'t find the total amount. Please capture the entire receipt.',
     tip: 'Tip: Make sure the total/amount paid is visible in the photo.',
   },
   NOT_RECEIPT: {
-    icon: 'ER',
     title: 'Not a receipt',
     message: 'This doesn\'t appear to be a receipt. Please upload a photo of your receipt.',
     tip: 'Tip: We need the itemized receipt from the merchant, not a credit card statement.',
   },
   DOG_PHOTO: {
-    icon: 'ER',
     title: 'That image is not a receipt',
     message: 'We could not detect receipt details in this image.',
     tip: 'Tip: Upload a clear photo of the full receipt from the merchant.',
@@ -33,28 +32,32 @@ const ERROR_TYPES = {
 
 export default function SpecificError({ transaction, errorType = 'BLURRY', onRetry, onCancel }) {
   const error = ERROR_TYPES[errorType] || ERROR_TYPES.BLURRY
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    setIsVisible(false)
+    const timer = window.setTimeout(() => setIsVisible(true), 40)
+    return () => window.clearTimeout(timer)
+  }, [errorType])
 
   return (
     <div className="phone-content text-center">
       {/* Header */}
-      <div className="mb-6">
-        <div className="inline-block px-4 py-2 border-2 border-dashed border-gray-400 text-sm text-gray-500">
-          [ EMPLOYER LOGO ]
-        </div>
-      </div>
+      <BrandHeader />
 
       {/* Error Icon */}
       <div className="status-icon status-icon-error mx-auto">
-        <span className="text-2xl">{error.icon}</span>
+        <StatusGlyph type="error" />
       </div>
 
       {/* Error Title */}
       <h1 className="text-xl font-semibold text-gray-800 mb-2">
         {error.title}
       </h1>
+      <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Status: Action required</p>
 
       {/* Error Message */}
-      <div className="wire-card text-left" style={{ borderColor: 'var(--wex-brand-yellow)', background: 'rgba(255, 188, 0, 0.12)' }}>
+      <div className={`wire-card text-left motion-reveal ${isVisible ? 'is-visible' : ''}`} style={{ borderColor: 'var(--wex-brand-yellow)', background: 'rgba(255, 188, 0, 0.12)' }}>
         <p className="text-sm text-gray-700">
           {error.message}
         </p>
@@ -66,8 +69,8 @@ export default function SpecificError({ transaction, errorType = 'BLURRY', onRet
       {/* Transaction Context */}
       <div className="wire-card text-left mt-4">
         <p className="text-xs text-gray-500">For transaction:</p>
-        <p className="text-sm font-medium mt-1">
-          {transaction.merchant} • {transaction.amount}
+        <p className="text-base font-medium mt-1">
+          <span className="text-gray-800">{transaction.merchant} • {transaction.amount}</span>
         </p>
       </div>
 
@@ -90,9 +93,5 @@ export default function SpecificError({ transaction, errorType = 'BLURRY', onRet
     </div>
   )
 }
-
-
-
-
 
 
