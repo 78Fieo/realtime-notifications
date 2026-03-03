@@ -86,7 +86,7 @@ export default function Thinking({ transaction, onComplete }) {
         {currentStage.message}
       </p>
       <p className="text-center text-sm" style={{ color: 'var(--wex-text-muted)', marginBottom: 4 }}>
-        This usually takes a few seconds.
+        This usually takes 15-20 seconds.
       </p>
       <p className="text-center text-xs font-medium" style={{ color: 'var(--wex-brand-blue-accent)', marginBottom: 20 }}>
         Step {stageIndex + 1} of {SCAN_STAGES.length}
@@ -99,7 +99,6 @@ export default function Thinking({ transaction, onComplete }) {
     </div>
   )
 }
-
 
 
 

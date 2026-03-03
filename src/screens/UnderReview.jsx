@@ -14,16 +14,16 @@ export default function UnderReview({ transaction }) {
 
       {/* Message */}
       <h1 className="text-xl font-semibold text-gray-800 mb-2">
-        Receipt Under Review
+        Receipt Received
       </h1>
       
       {/* Clear Explanation */}
       <div className="wire-card text-left">
         <p className="text-sm text-gray-700">
-          Your receipt was uploaded successfully.
+          Your receipt was submitted successfully.
         </p>
         <p className="text-sm text-gray-600 mt-3">
-          We'll complete verification within <strong>2 business days</strong> and notify you of the outcome.
+          If additional review is needed, we'll notify you within <strong>2 business days</strong>.
         </p>
       </div>
 
@@ -48,6 +48,5 @@ export default function UnderReview({ transaction }) {
     </div>
   )
 }
-
 
 

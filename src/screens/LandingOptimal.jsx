@@ -93,8 +93,9 @@ export default function LandingOptimal({ transaction, onTakePhoto, onUploadFile 
           >
             <h3 id="why-title" className="font-semibold mb-3">About receipt verification</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Certain merchants require a receipt to confirm your purchase qualifies for tax-free benefits.
-              This quick step ensures your claim is approved and your benefits card stays active.
+              IRS rules require documentation for purchases made with tax-advantaged funds. Your receipt provides
+              the details needed to substantiate this transaction.
+              Submitting a receipt does not determine whether a claim is approved or declined.
             </p>
             <button 
               ref={whyCloseRef}
@@ -109,7 +110,6 @@ export default function LandingOptimal({ transaction, onTakePhoto, onUploadFile 
     </div>
   )
 }
-
 
 
 

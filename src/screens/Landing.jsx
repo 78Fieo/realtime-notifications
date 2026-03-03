@@ -65,8 +65,9 @@ export default function Landing({ transaction, onUpload }) {
           <div className="bg-white border-2 border-dashed border-gray-400 p-5 max-w-xs motion-reveal is-visible">
             <h3 className="font-semibold mb-3">About receipt verification</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Certain merchants require a receipt to confirm your purchase qualifies for tax-free benefits.
-              This quick step ensures your claim is approved and your benefits card stays active.
+              IRS rules require documentation for purchases made with tax-advantaged funds. Your receipt provides
+              the details needed to substantiate this transaction.
+              Submitting a receipt does not determine whether a claim is approved or declined.
             </p>
             <button 
               className="wire-btn text-sm"

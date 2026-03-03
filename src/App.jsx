@@ -168,11 +168,11 @@ function App() {
     if (lastToastScreenRef.current === currentScreen) return
 
     if (currentScreen === DEV_SPEC_SCREENS.SUCCESS || currentScreen === OPTIMAL_SCREENS.SUCCESS) {
-      showToast({ title: 'Receipt verified', description: 'Your claim is approved.', tone: 'success' })
+      showToast({ title: 'Receipt verified', description: 'We verified your receipt.', tone: 'success' })
     }
 
     if (currentScreen === DEV_SPEC_SCREENS.SUCCESS_NOT_SUBSTANTIATED || currentScreen === OPTIMAL_SCREENS.UNDER_REVIEW) {
-      showToast({ title: 'Receipt under review', description: 'We\'ll notify you within 2 business days.', tone: 'info' })
+      showToast({ title: 'Receipt received', description: 'We\'ll notify you if additional review is needed.', tone: 'info' })
     }
 
     if (currentScreen === DEV_SPEC_SCREENS.UPLOAD_FAILED || currentScreen === OPTIMAL_SCREENS.SPECIFIC_ERROR) {
@@ -231,7 +231,7 @@ function App() {
         case DEV_SPEC_SCREENS.THINKING:
           return <Thinking transaction={TRANSACTION} onComplete={handleDevSpecThinkingComplete} />
         case DEV_SPEC_SCREENS.SUCCESS:
-          return <Success transaction={TRANSACTION} onContinue={() => goTo(DEV_SPEC_SCREENS.CONFIRMATION_SMS)} />
+          return <Success transaction={TRANSACTION} onContinue={resetFlow} />
         case DEV_SPEC_SCREENS.SUCCESS_NOT_SUBSTANTIATED:
           return <SuccessNotSubstantiated transaction={TRANSACTION} />
         case DEV_SPEC_SCREENS.UPLOAD_FAILED:
@@ -261,7 +261,7 @@ function App() {
             />
           )
         case OPTIMAL_SCREENS.SUCCESS:
-          return <Success transaction={TRANSACTION} onContinue={() => goTo(OPTIMAL_SCREENS.CONFIRMATION_SMS)} />
+          return <Success transaction={TRANSACTION} onContinue={resetFlow} />
         case OPTIMAL_SCREENS.UNDER_REVIEW:
           return <UnderReview transaction={TRANSACTION} />
         case OPTIMAL_SCREENS.SPECIFIC_ERROR:
@@ -309,7 +309,6 @@ function App() {
             { key: DEV_SPEC_SCREENS.TERMINAL_FAILURE, label: '5D. Terminal' },
           ],
         },
-        { group: 'AFTER', screens: [{ key: 'confirmation-sms', label: '6. Confirm SMS' }] },
         {
           group: 'EDGE CASES',
           screens: [
@@ -345,7 +344,6 @@ function App() {
           { key: OPTIMAL_SCREENS.EXPIRED, label: '4D. Expired Link' },
         ],
       },
-      { group: 'AFTER', screens: [{ key: 'confirmation-sms', label: '5. Confirm SMS' }] },
     ]
   }
 

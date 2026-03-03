@@ -22,13 +22,13 @@ export default function Success({ transaction, onContinue }) {
         Receipt Verified
       </h1>
       <p className="text-gray-600 mb-6">
-        You're all set! Your claim is approved.
+        Thanks - we've confirmed this is a valid receipt. Claim decisions are made during settlement.
       </p>
 
       {/* Confirmation Details */}
       <div className="wire-card text-left">
         <p className="text-sm text-gray-600">
-          Verified for this purchase:
+          Verified for this transaction:
         </p>
         <div className="mt-3 pt-3 border-t border-dashed border-gray-300">
           <div className="flex justify-between text-sm">
@@ -53,7 +53,6 @@ export default function Success({ transaction, onContinue }) {
     </div>
   )
 }
-
 
 
 
