@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useReducedMotion from './hooks/useReducedMotion'
 import useDeviceMotionProfile from './hooks/useDeviceMotionProfile'
-import { useToast } from './components/ToastProvider'
 import { BRANDS, BrandProvider } from './context/BrandContext'
 
 // Context screens (both flows)
@@ -89,8 +88,6 @@ function App() {
 
   const reducedMotion = useReducedMotion()
   const motionProfile = useDeviceMotionProfile(reducedMotion)
-  const { showToast } = useToast()
-  const lastToastScreenRef = useRef(null)
 
   const MAX_RETRIES = 3
   const goTo = (screen) => setCurrentScreen(screen)
@@ -127,7 +124,6 @@ function App() {
     }
   }
   const handleDevSpecRetry = () => {
-    showToast({ title: 'Retrying upload', description: 'Take a clear, well-lit photo of the full receipt.', tone: 'info' })
     goTo(DEV_SPEC_SCREENS.UPLOAD_METHOD)
   }
 
@@ -149,7 +145,6 @@ function App() {
   }
   const handleOptimalError = () => goTo(OPTIMAL_SCREENS.SPECIFIC_ERROR)
   const handleOptimalRetry = () => {
-    showToast({ title: 'Try another photo', description: 'Good lighting helps us read your receipt.', tone: 'info' })
     goTo(OPTIMAL_SCREENS.CAMERA_PREVIEW)
   }
   const handleOptimalLater = () => goTo(OPTIMAL_SCREENS.LANDING_OPTIMAL)
@@ -163,24 +158,6 @@ function App() {
     setDisplayScreen(currentScreen)
     setTransitionKey((prev) => prev + 1)
   }, [currentScreen, displayScreen])
-
-  useEffect(() => {
-    if (lastToastScreenRef.current === currentScreen) return
-
-    if (currentScreen === DEV_SPEC_SCREENS.SUCCESS || currentScreen === OPTIMAL_SCREENS.SUCCESS) {
-      showToast({ title: 'Receipt verified', description: 'We verified your receipt.', tone: 'success' })
-    }
-
-    if (currentScreen === DEV_SPEC_SCREENS.SUCCESS_NOT_SUBSTANTIATED || currentScreen === OPTIMAL_SCREENS.UNDER_REVIEW) {
-      showToast({ title: 'Receipt received', description: 'We\'ll notify you if additional review is needed.', tone: 'info' })
-    }
-
-    if (currentScreen === DEV_SPEC_SCREENS.UPLOAD_FAILED || currentScreen === OPTIMAL_SCREENS.SPECIFIC_ERROR) {
-      showToast({ title: 'Upload unsuccessful', description: 'Please take a new photo or try again.', tone: 'error' })
-    }
-
-    lastToastScreenRef.current = currentScreen
-  }, [currentScreen, showToast])
 
   // ========== RENDER SCREEN ==========
   const renderScreen = (screenKey) => {
